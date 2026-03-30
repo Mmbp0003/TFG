@@ -1,0 +1,96 @@
+/* CONTENEDOR PRINCIPAL */
+.filter-menu {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 900px;
+    border: 1px solid #ddd;
+}
+
+/* HEADER */
+.toggle-filter-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* FORMULARIO */
+.filter-form {
+    display: none;
+    margin-top: 20px;
+}
+
+.filter-form.active {
+    display: block;
+}
+
+/* SECCIONES */
+.filter-section {
+    margin-bottom: 25px;
+}
+
+.filter-section p {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* GRUPOS DE CHECKBOXES */
+.filter-menu-check-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ESTILO TIPO TAG */
+.label-filter-option-item {
+    background: #f1f3f5;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.label-filter-option-item:hover {
+    background: #e2e6ea;
+}
+
+/* CHECKBOX */
+.label-filter-option-item input {
+    cursor: pointer;
+}
+
+/* TITULOS */
+.heading {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* FIELDSET */
+fieldset {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+}
+
+/* INPUTS */
+input[type="text"] {
+    width: 100%;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* BOTONES (si añades luego) */
+.filter-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
