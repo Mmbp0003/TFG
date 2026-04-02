@@ -1,3 +1,11 @@
+/* CONTENEDOR CENTRAL */
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;   /* 🔥 centra todo */
+    padding: 20px;
+}
+
+
 /* CONTENEDOR PRINCIPAL */
 .filter-menu {
     background: #ffffff;
@@ -5,6 +13,8 @@
     padding: 20px;
     max-width: 900px;
     border: 1px solid #ddd;
+    margin-bottom: 15px;
+    margin-top:15px;
 }
 
 /* HEADER */
@@ -88,9 +98,35 @@ input[type="text"] {
     border: 1px solid #ccc;
 }
 
-/* BOTONES (si añades luego) */
 .filter-actions {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+}
+
+
+/* CONTENEDOR DE LIBROS */
+.books-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.book-card {
+    min-height: 180px;
+    padding: 16px;
+    align-items: stretch;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.book-info {
+    flex: 1;
+}
+
+.book-img {
+    width: 110px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
 }

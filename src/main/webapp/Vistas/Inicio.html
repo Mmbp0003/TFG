@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/Inicio.css">
 
     <script src="../js/Inicio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </head>
@@ -55,13 +56,18 @@
             <!-- usuario -->
             <div class="d-flex gap-3">
                 <div class="dropdown text-end">
-                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" style="color: #f8f9fa" viewBox="0 0 16 16">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                             class="bi bi-person-circle" style="color: #f8f9fa" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                         </svg>
                     </a>
-                    <ul class="dropdown-menu text-small">
+                    <ul class="dropdown-menu dropdown-menu-end text-small">
+                        <li><a class="dropdown-item" href="#">Ver Perfil</a></li>
+                        <li><a class="dropdown-item" href="#">Lista Amigos</a></li>
                         <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
                     </ul>
                 </div>
@@ -69,209 +75,321 @@
 
         </nav>
 
-        <!--FILTRO-->
-        <div class="filter-menu">
+        <div class="main-content">
+            <!--FILTRO-->
+            <div class="filter-menu">
 
-            <div class="toggle-filter-menu">
-                <h3><span>Filtrar libros</span></h3>
-                <span> > </span>
-            </div>
+                <div class="toggle-filter-menu">
+                    <h4><span>Filtrar libros</span></h4>
+                    <span> > </span>
+                </div>
 
-            <div class="filter-form">
-                <!--GENERO-->
-                <h4 class="heading">GÉNEROS</h4>
+                <div class="filter-form">
+                    <!--GENERO-->
+                    <h4 class="heading">GÉNEROS</h4>
 
-                <!--FICCIÓN-->
-                <div class="filter-section">
-                    <p>Ficción</p>
-                    <div class="filter-menu-check-boxes">
+                    <!--FICCIÓN-->
+                    <div class="filter-section">
+                        <p>Ficción</p>
+                        <div class="filter-menu-check-boxes">
 
-                        <label class="label-filter-option-item"><input type="checkbox" value="novela_negra"> Novela Negra</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="novela_historica"> Novela Histórica</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="romantica"> Romántica</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="ciencia_ficcion"> Ciencia Ficción</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="distopia"> Distopía</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="aventuras"> Aventuras</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="fantasia"> Fantasía</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="contemporaneo"> Contemporáneo</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="terror"> Terror</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="paranormal"> Paranormal</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="poesia"> Poesía</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="juvenil"> Juvenil</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="infantil"> Infantil</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="novela_negra"> Novela
+                                Negra</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="novela_historica">
+                                Novela
+                                Histórica</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="romantica">
+                                Romántica</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="ciencia_ficcion">
+                                Ciencia
+                                Ficción</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="distopia">
+                                Distopía</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="aventuras">
+                                Aventuras</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="fantasia">
+                                Fantasía</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="contemporaneo">
+                                Contemporáneo</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="terror">
+                                Terror</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="paranormal">
+                                Paranormal</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="poesia">
+                                Poesía</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="juvenil">
+                                Juvenil</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="infantil">
+                                Infantil</label>
 
+                        </div>
                     </div>
-                </div>
 
-                <!--NO FICCION-->
-                <div class="filter-section">
-                    <p>No Ficción</p>
-                    <div class="filter-menu-check-boxes">
+                    <!--NO FICCION-->
+                    <div class="filter-section">
+                        <p>No Ficción</p>
+                        <div class="filter-menu-check-boxes">
 
-                        <label class="label-filter-option-item"><input type="checkbox" value="autoayuda"> Autoayuda</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="salud"> Salud y deporte</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="practicos"> Libros prácticos</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="memorias"> Memorias</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="biografias"> Biografías</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="cocina"> Cocina</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="viajes"> Viajes</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="tecnico"> Técnicos</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="divulgativo"> Divulgativo</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="arte"> Arte</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="autoayuda">
+                                Autoayuda</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="salud"> Salud y
+                                deporte</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="practicos"> Libros
+                                prácticos</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="memorias">
+                                Memorias</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="biografias">
+                                Biografías</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="cocina">
+                                Cocina</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="viajes">
+                                Viajes</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="tecnico">
+                                Técnicos</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="divulgativo">
+                                Divulgativo</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="arte"> Arte</label>
 
+                        </div>
                     </div>
-                </div>
 
-                <!-- TAGS -->
-                <h4 class="heading">TAGS</h4>
+                    <!-- TAGS -->
+                    <h4 class="heading">TAGS</h4>
 
-                <div class="filter-section">
-                    <div class="filter-menu-check-boxes">
+                    <div class="filter-section">
+                        <div class="filter-menu-check-boxes">
 
-                        <label class="label-filter-option-item"><input type="checkbox" value="friendship"> Friendship</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="fluff"> Fluff</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="enemies_to_lovers"> Enemies to Lovers</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="violence"> Violence</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="family"> Family</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="drama"> Drama</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="cozy"> Cozy</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="slow_burn"> Slow Burn</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="humor"> Humor</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="hurt_comfort"> Hurt/Comfort</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="happy_ending"> Happy Ending</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="supernatural"> Supernatural</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="friendship">
+                                Friendship</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="fluff"> Fluff</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="enemies_to_lovers">
+                                Enemies to Lovers</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="violence">
+                                Violence</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="family">
+                                Family</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="drama"> Drama</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="cozy"> Cozy</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="slow_burn"> Slow
+                                Burn</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="humor"> Humor</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="hurt_comfort">
+                                Hurt/Comfort</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="happy_ending"> Happy
+                                Ending</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="supernatural">
+                                Supernatural</label>
 
+                        </div>
                     </div>
-                </div>
 
-                <!--MOOD-->
-                <h4 class="heading">Estoy en el mood de ... </h4>
+                    <!--MOOD-->
+                    <h4 class="heading">Estoy en el mood de ... </h4>
 
-                <div class="filter-section">
-                    <div class="filter-menu-check-boxes">
+                    <div class="filter-section">
+                        <div class="filter-menu-check-boxes">
 
-                        <label class="label-filter-option-item"><input type="checkbox" value="inspiring"> Inspiring</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="emotional"> Emotional</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="reflective"> Reflective</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="informative"> Informative</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="hopeful"> Hopeful</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="challenging"> Challenging</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="dark"> Dark</label>
-                        <label class="label-filter-option-item"><input type="checkbox" value="tense"> Tense</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="inspiring">
+                                Inspiring</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="emotional">
+                                Emotional</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="reflective">
+                                Reflective</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="informative">
+                                Informative</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="hopeful">
+                                Hopeful</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="challenging">
+                                Challenging</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="dark"> Dark</label>
+                            <label class="label-filter-option-item"><input type="checkbox" value="tense"> Tense</label>
 
+                        </div>
                     </div>
-                </div>
 
-                <!--OPCIONES-->
-                <h4 class="heading">MÁS OPCIONES</h4>
+                    <!--OPCIONES-->
+                    <h4 class="heading">MÁS OPCIONES</h4>
 
-                <div class="filter-section">
-                    <p>Rating mínimo</p>
-                    <input type="number" id="rating" min="0" max="5" step="0.1" placeholder="Ej: 4.4">
-                </div>
-
-                <div class="filter-section">
-                    <p>Número de palabras</p>
-                    <div class="d-flex gap-2">
-                        <input type="number" placeholder="Desde" id="words_from">
-                        <input type="number" placeholder="Hasta" id="words_to">
+                    <div class="filter-section">
+                        <p>Rating mínimo</p>
+                        <input type="number" id="rating" min="0" max="5" step="0.1" placeholder="Ej: 4.4">
                     </div>
-                </div>
 
-                <!-- BOTONES -->
-                <div class="filter-actions">
-                    <button onclick="getFilters()">Aplicar filtros</button>
-                    <button onclick="location.reload()">Reset</button>
-                </div>
-
-            </div>
-
-
-        </div>
-
-        <div class="filter-menu">
-
-            <!-- TOGGLE -->
-            <div class="toggle-filter-menu" id="toggleSort">
-                <span>Ordenar libros</span>
-                <span> > </span>
-            </div>
-
-            <div class="filter-form" id="sortForm">
-
-                <div class="filter-section">
-                    <p>Ordenar por</p>
-
-                    <div class="filter-menu-check-boxes">
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="rating_desc"> Mejor valorados
-                        </label>
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="rating_asc"> Peor valorados
-                        </label>
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="date_desc"> Más recientes
-                        </label>
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="date_asc"> Más antiguos
-                        </label>
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="title_asc"> Título A-Z
-                        </label>
-
-                        <label class="label-filter-option-item">
-                            <input type="radio" name="sort" value="title_desc"> Título Z-A
-                        </label>
-
+                    <div class="filter-section">
+                        <p>Número de palabras</p>
+                        <div class="d-flex gap-2">
+                            <input type="number" placeholder="Desde" id="words_from">
+                            <input type="number" placeholder="Hasta" id="words_to">
+                        </div>
                     </div>
+
+                    <!-- BOTONES -->
+                    <div class="filter-actions">
+                        <button onclick="getFilters()">Aplicar filtros</button>
+                        <button onclick="location.reload()">Reset</button>
+                    </div>
+
                 </div>
 
-                <!-- BOTONES -->
-                <div class="filter-actions">
-                    <button onclick="applySort()">Aplicar orden</button>
-                    <button onclick="resetSort()">Reset</button>
-                </div>
 
             </div>
 
-        </div>
 
-        </div>
+            <!--Ordenar Libros-->
+            <div class="filter-menu">
 
-        </div>
+                <div class="toggle-filter-menu" id="toggleSort">
+                    <h4><span>Ordenar libros</span></h4>
+                    <span> > </span>
+                </div>
 
-        <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <p class="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
-                <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" aria-label="Bootstrap">
-                    <svg class="bi me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg>
-                </a>
-                <ul class="nav col-md-4 justify-content-end">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-body-secondary">About</a>
-                    </li>
-                </ul>
-            </footer>
-        </div>
+                <div class="filter-form" id="sortForm">
 
+                    <div class="filter-section">
+                        <p>Ordenar por</p>
+
+                        <div class="filter-menu-check-boxes">
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="rating_desc"> Mejor valorados
+                            </label>
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="rating_asc"> Peor valorados
+                            </label>
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="date_desc"> Más recientes
+                            </label>
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="date_asc"> Más antiguos
+                            </label>
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="title_asc"> Título A-Z
+                            </label>
+
+                            <label class="label-filter-option-item">
+                                <input type="radio" name="sort" value="title_desc"> Título Z-A
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="filter-actions">
+                        <button onclick="applySort()">Aplicar orden</button>
+                        <button onclick="resetSort()">Reset</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <br>
+            <br>
+
+            <div class="book-card d-flex mb-3">
+
+                <img src="https://m.media-amazon.com/images/I/91MsOKbHjVL.jpg"
+                     class="book-img" alt="Portada">
+
+                <div class="book-info ms-3 d-flex flex-column w-100">
+
+                    <div>
+                        <h5 class="mb-0">El nombre del viento</h5>
+                        <span class="text-muted">by Patrick Rothfuss</span>
+                    </div>
+
+                    <!-- DESCRIPCIÓN -->
+                    <p class="small text-muted mt-2 flex-grow-1">
+                        En una posada en tierra de nadie, un hombre se dispone a relatar, por primera vez, la auténtica historia de su vida. Una historia que únicamente él conoce y que ha quedado diluida tras los rumores, las conjeturas y los cuentos de taberna que le han convertido en un personaje legendario a quien todos daban ya por muerto: Kvothe... músico, mendigo, ladrón, estudiante, mago, héroe y asesino.
+                    </p>
+
+                    <!-- RATING + BOTONES -->
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+
+                        <span>
+                            <svg style="margin-right: 5px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>
+                            4.5
+                        </span>
+
+                        <div>
+                            <button class="btn btn-sm btn-primary">Ver</button>
+                            <div class="dropdown d-inline">
+
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    Guardar
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                    <li><h6 class="dropdown-header">Mis listas</h6></li>
+
+                                    <li><a class="dropdown-item" href="#">Favoritos</a></li>
+                                    <li><a class="dropdown-item" href="#">Quiero leer</a></li>
+                                    <li><a class="dropdown-item" href="#">Leídos</a></li>
+
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    <li>
+                                        <a class="dropdown-item" href="#">+ Crear nueva lista</a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+        </div>
     </div>
+
+</div>
+
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+        <a href="/"
+           class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+           aria-label="Bootstrap">
+            <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+        </a>
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item">
+                <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+</div>
 
 </div>
 
