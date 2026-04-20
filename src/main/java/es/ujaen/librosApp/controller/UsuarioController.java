@@ -1,0 +1,42 @@
+package es.ujaen.librosApp.controller;
+
+import es.ujaen.librosApp.model.Usuario;
+import es.ujaen.librosApp.Service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @GetMapping
+    public List<Usuario> obtenerTodos() {
+        return usuarioService.obtenerTodos();
+    }
+
+    @GetMapping("/{id}")
+    public Usuario obtenerPerfil(@PathVariable int id) {
+        return usuarioService.obtenerPorId(id);
+    }
+
+    // GET: /api/usuarios/buscar?nombre=juan (Buscador de personas)
+    @GetMapping("/buscar")
+    public List<Usuario> buscarAmigos(@RequestParam String nombre) {
+        return usuarioService.buscarPorNombre(nombre);
+    }
+
+    @PostMapping("/registro")
+    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.registrar(usuario);
+    }
+
+    @DeleteMapping("/{id}")
+    public void borrarCuenta(@PathVariable int id) {
+        usuarioService.borrarCuenta(id);
+    }
+}
