@@ -1,11 +1,14 @@
 package es.ujaen.librosApp.controller;
 
+import es.ujaen.librosApp.DTO.DTOLogin;
 import es.ujaen.librosApp.model.Usuario;
 import es.ujaen.librosApp.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -38,5 +41,15 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void borrarCuenta(@PathVariable int id) {
         usuarioService.borrarCuenta(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> inicioSesion (@RequestBody DTOLogin dtoLogin){
+        try{
+            Usuario usuLogin = usuarioService.login(dtoLogin.getEmail(), dtoLogin.getClave());
+            return  ResponseEntity.ok(usuLogin);
+        } catch (RuntimeException e){
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
     }
 }
