@@ -3,8 +3,11 @@ package es.ujaen.librosApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +20,9 @@ public class Comentario {
     @NotBlank
     @Size(max=1000)
     String contenido;
+
+    @NotNull
+    private LocalDateTime fechaCreacion;
 
     //--------------------------------------RELACIONES----------------------------------------------------
     @JsonIgnore
@@ -32,13 +38,14 @@ public class Comentario {
 
     public Comentario() {}
 
-    public Comentario(int id, String contenido){
+    public Comentario(int id, String contenido,LocalDateTime fechaCreacion) {
         this.id = id;
         this.contenido = Objects.requireNonNull(contenido);
+        this.fechaCreacion = LocalDateTime.now();
     }
 
-    public Comentario(String contenido){
-        this(0,contenido);
+    public Comentario(String contenido,LocalDateTime fechaCreacion) {
+        this(0,contenido,fechaCreacion);
     }
 
     //------------------------------------GETTERS Y SETTERS-------------------------------------------
@@ -53,4 +60,6 @@ public class Comentario {
 
     public void setUsuario (Usuario usuario){ this.usuario = usuario; }
     public Usuario getUsuario () {return usuario;}
+
+    public LocalDateTime getFechaCreacion () { return fechaCreacion; }
 }

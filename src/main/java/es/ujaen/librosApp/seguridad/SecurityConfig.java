@@ -41,14 +41,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // Defino la protección
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .csrf(csrf -> csrf.disable()) //Desactivamos protección SCRF
-                .cors(cors -> {}) //Activa la configuración CORS
-                //Define quien tiene permitido entrar a que endpoints/URL por ejemplo todos puede entrar a /api/usuarios/login asi no se bloquea
-                //Define las reglas de seguridad
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/usuarios/login").permitAll()
+                        .requestMatchers(
+                                "/api/usuarios/login",
+                                "/Vistas/**",
+                                "/js/**",
+                                "/css/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
 

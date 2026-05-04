@@ -1,0 +1,237 @@
+:root {
+    --bg-main: #F8F8F8;
+    --bg-card: #E0E0E0; /* 🔥 Más oscuro como pediste */
+    --text-main: #333;
+    --text-secondary: #7A7A7A;
+    --accent: #E63946;
+    --structure: #2C2C2C;
+    --structure-hover: #3B3B3B;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.main-content {
+    max-width: 900px;
+    margin: 40px auto 0;
+    padding: 20px;
+}
+
+/* =========================
+   VISTA 1: TARJETAS DE LISTAS
+   ========================= */
+.lista-card {
+    background: var(--bg-card);
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.lista-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.lista-title {
+    font-weight: 700;
+}
+
+.btn-ver-lista {
+    background: var(--structure);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-ver-lista:hover {
+    background: var(--structure-hover);
+}
+
+/* =========================
+   VISTA 2: LIBROS DENTRO DE LA LISTA
+   ========================= */
+.carpeta-book {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg-card);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.carpeta-img {
+    width: 70px;
+    height: 105px;
+    min-width: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.carpeta-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.carpeta-info h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--structure);
+}
+
+.carpeta-info p {
+    margin: 2px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.carpeta-info small {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+
+/* =========================
+   CARRUSEEL "LEYENDO"
+   ========================= */
+.reading-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.carousel-nav {
+    background: var(--structure);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#readingCarouselContainer {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* TARJETA DE LECTURA */
+.reading-card {
+    display: flex;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 25px;
+    gap: 30px;
+    min-height: 350px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.reading-img {
+    width: 180px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.reading-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.reading-info h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+/* SECCIÓN PROGRESO */
+.progress-update-area {
+    background: rgba(255,255,255,0.4);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: auto;
+}
+
+.update-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.final-review-area {
+    background: #fff;
+    border: 2px solid var(--accent);
+    padding: 15px;
+    border-radius: 12px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* =========================
+   ESTRELLAS DECIMALES
+   ========================= */
+.star-rating {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.star-container {
+    position: relative;
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.star-container i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.star-empty {
+    color: #ccc; /* Estrella de fondo gris */
+}
+
+.star-filled {
+    color: #FFD700; /* Estrella dorada */
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    transition: width 0.3s ease;
+}
+
+/* Interacción */
+.interactive-star {
+    cursor: pointer;
+}
+
+.interactive-star:hover .star-filled,
+.interactive-star:hover ~ .interactive-star .star-filled {
+    /* Efecto hover opcional si quieres que reaccionen */
+    opacity: 0.8;
+}

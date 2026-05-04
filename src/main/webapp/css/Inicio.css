@@ -1,23 +1,52 @@
-/* CONTENEDOR CENTRAL */
+/* =========================
+   VARIABLES
+   ========================= */
+:root {
+    --bg-main: rgb(255, 255, 255);
+    --bg-card: #EDEDED;
+
+    --text-main: #333333;
+    --text-secondary: #7A7A7A;
+
+    --accent: #E63946;
+
+    --structure: #2C2C2C;
+    --structure-hover: #3B3B3B;
+}
+
+/* =========================
+   BASE
+   ========================= */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+
+/* =========================
+   CONTENEDOR CENTRAL
+   ========================= */
 .main-content {
     max-width: 900px;
-    margin: 0 auto;   /* 🔥 centra todo */
+    margin: 0 auto;
     padding: 20px;
 }
 
 
-/* CONTENEDOR PRINCIPAL */
+
+/* =========================
+   FILTROS
+   ========================= */
 .filter-menu {
-    background: #ffffff;
+    background: var(--bg-card);
     border-radius: 12px;
     padding: 20px;
     max-width: 900px;
-    border: 1px solid #ddd;
+    border: 1px solid #d0d0d0;
     margin-bottom: 15px;
-    margin-top:15px;
+    margin-top: 15px;
 }
 
-/* HEADER */
 .toggle-filter-menu {
     display: flex;
     justify-content: space-between;
@@ -27,7 +56,6 @@
     font-size: 18px;
 }
 
-/* FORMULARIO */
 .filter-form {
     display: none;
     margin-top: 20px;
@@ -37,7 +65,6 @@
     display: block;
 }
 
-/* SECCIONES */
 .filter-section {
     margin-bottom: 25px;
 }
@@ -47,16 +74,15 @@
     margin-bottom: 10px;
 }
 
-/* GRUPOS DE CHECKBOXES */
+/* TAGS */
 .filter-menu-check-boxes {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-/* ESTILO TIPO TAG */
 .label-filter-option-item {
-    background: #f1f3f5;
+    background: #dcdcdc;
     padding: 6px 10px;
     border-radius: 8px;
     cursor: pointer;
@@ -65,68 +91,152 @@
     gap: 5px;
     font-size: 14px;
     transition: 0.2s;
+    color: var(--text-secondary);
 }
 
 .label-filter-option-item:hover {
-    background: #e2e6ea;
-}
-
-/* CHECKBOX */
-.label-filter-option-item input {
-    cursor: pointer;
-}
-
-/* TITULOS */
-.heading {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-/* FIELDSET */
-fieldset {
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
+    background: #cfcfcf;
 }
 
 /* INPUTS */
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
     width: 100%;
     padding: 6px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid #bdbdbd;
+    background: #ffffff;
 }
 
-.filter-actions {
-    margin-top: 20px;
+/* BOTONES */
+.filter-actions button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.filter-actions button:hover {
+    background-color: #8f0d17;
+}
+
+
+/* =========================
+   LIBROS (ACTUALIZADO)
+   ========================= */
+
+.book-card {
     display: flex;
+    gap: 16px;
+
+    min-height: 180px;
+    padding: 16px;
+
+    background: var(--bg-card);
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+
+    transition: 0.2s ease;
+}
+
+/* hover suave */
+.book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   IMAGEN
+   ========================= */
+.book-img {
+    width: 110px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* =========================
+   INFO
+   ========================= */
+.book-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
-
-/* CONTENEDOR DE LIBROS */
-.books-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* =========================
+   HEADER
+   ========================= */
+.book-info h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--structure);
 }
 
-.book-card {
-    min-height: 180px;
-    padding: 16px;
-    align-items: stretch;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+.book-info .text-muted {
+    color: var(--text-secondary) !important;
+    font-size: 13px;
 }
 
-.book-info {
-    flex: 1;
+/* =========================
+   DESCRIPCIÓN
+   ========================= */
+.book-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 10px;
 }
 
-.book-img {
-    width: 110px;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
+/* =========================
+   FOOTER
+   ========================= */
+.book-info .d-flex {
+    align-items: center;
+}
+
+/* =========================
+   RATING
+   ========================= */
+.book-info svg {
+    color: var(--accent);
+}
+
+/* =========================
+   BOTONES
+   ========================= */
+
+/* botón ver */
+.btn-primary {
+    background: var(--structure);
+    border: none;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--structure-hover);
+}
+
+/* botón guardar */
+.btn-outline-secondary {
+    border: 1px solid #bdbdbd;
+    color: var(--structure);
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
 }

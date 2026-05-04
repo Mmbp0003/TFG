@@ -4,7 +4,10 @@ package es.ujaen.librosApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +26,9 @@ public class Resena {
     @Size(max = 5000)
     String contenido;
 
+    @NotNull
+    private LocalDateTime fechaCreacion;
+
     //-----------------------------------------RELACIONES--------------------------------------------------
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "resena", cascade = CascadeType.ALL)
@@ -40,14 +46,15 @@ public class Resena {
 
     public Resena() { }
 
-    public Resena(int id, Double puntuacion, String contenido){
+    public Resena(int id, Double puntuacion, String contenido, LocalDateTime fechaCreacion){
         this.id = id;
         this.puntuacion = Objects.requireNonNull(puntuacion);
         this.contenido = Objects.requireNonNull(contenido);
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public Resena(Double puntuacion, String contenido){
-        this(0,puntuacion, contenido);
+    public Resena(Double puntuacion, String contenido,LocalDateTime fechaCreacion){
+        this(0,puntuacion, contenido,fechaCreacion);
     }
 
     //--------------------------------------GETTERS Y SETTERS------------------------------------------------------
@@ -68,4 +75,6 @@ public class Resena {
 
     public void setLibro (Libro libro) {this.libro= libro;}
     public Libro getLibro () {return libro;}
+
+    public LocalDateTime getFechaCreacion () { return fechaCreacion; }
 }

@@ -66,6 +66,10 @@ public class Usuario {
     @OneToMany(mappedBy = "seguido", fetch = FetchType.LAZY)
     private List<Relacion> seguidores = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Actividad> actividades = new ArrayList<>();
+
     // -------------------------------------CONSTRUCTORES -------------------------------------------------------
 
     public Usuario(){}
@@ -125,4 +129,6 @@ public class Usuario {
     public void setSeguidores (List<Relacion> seguidores) {this.seguidores = seguidores;}
     public List<Relacion> getSeguidores () {return  seguidores;}
 
+    public void setActividades(List<Actividad> actividades) { this.actividades = actividades; }
+    public List<Actividad> getActividades() { return actividades; }
 }

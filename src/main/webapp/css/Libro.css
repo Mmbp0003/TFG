@@ -1,0 +1,120 @@
+:root {
+    --bg-main: #F8F8F8;
+    --bg-card: #EDEDED;
+    --text-main: #333333;
+    --text-secondary: #7A7A7A;
+    --accent: #E63946;
+    --structure: #2C2C2C;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* TARJETA DETALLE */
+.book-detail-card {
+    display: flex;
+    gap: 25px;
+    background: var(--bg-card);
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.book-detail-img img {
+    width: 220px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.book-detail-info .book-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    color: var(--structure);
+}
+
+.book-detail-info .book-author {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.book-sinopsis {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.book-rating-box {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+/* RESEÑAS */
+.reviews-section h4 {
+    margin: 30px 0 15px 0;
+    font-weight: 700;
+    color: var(--structure);
+}
+
+.review-card {
+    background: var(--bg-card);
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.2s;
+}
+
+.review-card:hover {
+    transform: translateX(5px);
+}
+
+/* USUARIOS CLICKABLES */
+.user-profile-link {
+    text-decoration: none;
+    color: var(--structure);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s;
+}
+
+.user-profile-link:hover {
+    color: var(--accent);
+}
+
+.user-name {
+    font-weight: 700;
+}
+
+.user-profile-link:hover .user-name {
+    text-decoration: underline;
+}
+
+.user-rating-mini {
+    background: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid #ddd;
+}

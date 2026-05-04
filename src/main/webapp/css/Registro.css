@@ -1,4 +1,3 @@
-
 :root {
     --bg-main: #F8F8F8;
     --bg-card: #EDEDED;
@@ -12,7 +11,6 @@
     --structure-hover: #3B3B3B;
 }
 
-
 /* =========================
    BASE
    ========================= */
@@ -25,11 +23,11 @@ body {
 }
 
 /* =========================
-   CONTENEDOR LOGIN
+   CONTENEDOR REGISTRO
    ========================= */
 .form-signin {
-    max-width: 360px;
-    padding: 2rem;
+    max-width: 420px;
+    padding: 2.5rem;
     background: var(--bg-card);
     border-radius: 14px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
@@ -60,13 +58,13 @@ body {
     box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
 }
 
-/* label */
-.form-floating label {
-    color: var(--text-secondary);
+/* spacing entre inputs */
+.form-floating {
+    margin-bottom: 10px;
 }
 
 /* =========================
-   BOTON PRINCIPAL
+   BOTON REGISTRO
    ========================= */
 .btn-primary {
     background-color: var(--accent);
@@ -82,7 +80,7 @@ body {
 }
 
 /* =========================
-   LINK REGISTRO
+   LINK LOGIN
    ========================= */
 .form-signin a {
     color: var(--accent);

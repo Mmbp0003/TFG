@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Libro - Detalle</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/Libro.css">
+</head>
+<body>
+
+<div id="layout"></div>
+
+<div id="page-content" style="display:none;">
+    <div class="main-content">
+
+        <div class="book-detail-card">
+            <div class="book-detail-img">
+                <img src="https://m.media-amazon.com/images/I/91MsOKbHjVL.jpg" alt="Portada del libro">
+            </div>
+
+            <div class="book-detail-info">
+                <h1 class="book-title">El nombre del viento</h1>
+                <p class="book-author">Patrick Rothfuss</p>
+
+                <div class="book-meta">
+                    <p><strong>Páginas:</strong> 662</p>
+                    <p><strong>Publicación:</strong> 2007-03-27</p>
+                    <p><strong>Sinopsis:</strong></p>
+                    <p class="book-sinopsis">
+                        En una posada en tierra de nadie, un hombre se dispone a relatar,
+                        por primera vez, la auténtica historia de su vida...
+                    </p>
+                </div>
+
+                <div class="book-rating-box">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <span>4.5</span>
+                    <small>(128 reseñas)</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-section mt-4">
+            <h4>Reseñas de la comunidad</h4>
+
+            <div class="review-card">
+                <div class="review-user">
+                    <a href="Perfil.html?user=usuario1" class="user-profile-link">
+                        <i class="bi bi-person-circle fs-4"></i>
+                        <span class="user-name">usuario1</span>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span>4.5</span>
+                    </a>
+                </div>
+                <p>Un libro increíble, muy bien narrado y con un mundo muy profundo.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-user">
+                    <a href="Perfil.html?user=usuario1" class="user-profile-link">
+                        <i class="bi bi-person-circle fs-4"></i>
+                        <span class="user-name">usuario1</span>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span>4.5</span>
+                    </a>
+                </div>
+                <p>Un libro increíble, muy bien narrado y con un mundo muy profundo.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../js/layout.js"></script>
+<script src="../js/Libro.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

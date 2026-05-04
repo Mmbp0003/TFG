@@ -1,8 +1,12 @@
 package es.ujaen.librosApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,8 +21,11 @@ public class Carpeta {
     @NotBlank
     String nombre;
 
-    //-----------------------------RELACIONES--------------------------------------------
+    @NotNull
+    private LocalDateTime fechaCreacion;
 
+    //-----------------------------RELACIONES--------------------------------------------
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "carpeta_libro",
@@ -27,6 +34,7 @@ public class Carpeta {
     )
     private List<Libro> libros = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -35,13 +43,14 @@ public class Carpeta {
 
     public Carpeta(){ }
 
-    public Carpeta(int id, String nombre){
+    public Carpeta(int id, String nombre, LocalDateTime fechaCreacion) {
         this.id = id;
         this.nombre = Objects.requireNonNull(nombre);
+        this.fechaCreacion = LocalDateTime.now();
     }
 
-    public Carpeta(String nombre){
-        this(0,nombre);
+    public Carpeta(String nombre,LocalDateTime fechaCreacion) {
+        this(0,nombre,fechaCreacion);
     }
 
     //------------------------------GETTERS Y SETTERS--------------------------------------
@@ -56,4 +65,6 @@ public class Carpeta {
 
     public void setUsuario (Usuario usuario) { this.usuario = usuario; }
     public Usuario getUsuario () {return usuario;}
+
+    public LocalDateTime getFechaCreacion () { return fechaCreacion; }
 }

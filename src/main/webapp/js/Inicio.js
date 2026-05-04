@@ -1,50 +1,75 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-
-    const toggleSort = document.getElementById("toggleSort");
-    const sortForm = document.getElementById("sortForm");
-
-    if (toggleSort && sortForm) {
-        toggleSort.addEventListener("click", () => {
-            sortForm.classList.toggle("active");
-        });
-    }
+    const currentPage = window.location.pathname.split("/").pop();
 
 
-    const toggleFilter = document.querySelector(".toggle-filter-menu");
-    const filterForm = document.querySelector(".filter-form");
+    /* =========================
+       TOGGLE MENÚS (FILTROS + ORDEN)
+       ========================= */
 
-    if (toggleFilter && filterForm) {
-        toggleFilter.addEventListener("click", () => {
-            filterForm.classList.toggle("active");
+    const filterMenus = document.querySelectorAll(".filter-menu");
+
+    filterMenus.forEach(menu => {
+        const toggle = menu.querySelector(".toggle-filter-menu");
+        const form = menu.querySelector(".filter-form");
+
+        if (toggle && form) {
+            toggle.addEventListener("click", () => {
+
+                // cerrar otros filtros abiertos
+                document.querySelectorAll(".filter-form").forEach(f => {
+                    if (f !== form) f.classList.remove("active");
+                });
+
+                // toggle actual
+                form.classList.toggle("active");
+            });
+        }
+    });
+
+
+    /* =========================
+       LOGIN (IMPORTANTE)
+       ========================= */
+
+    const loginForm = document.getElementById("loginForm");
+
+    if (loginForm) {
+
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const clave = document.getElementById("clave").value;
+
+            try {
+                const response = await fetch("http://localhost:8080/api/usuarios/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, clave })
+                });
+
+                if (response.ok) {
+                    const usuario = await response.json();
+
+                    // guardar sesión simple
+                    localStorage.setItem("usuario", JSON.stringify(usuario));
+
+                    // redirección
+                    window.location.href = "../Vistas/Inicio.html";
+
+                } else {
+                    const msg = await response.text();
+                    alert("Error login: " + msg);
+                }
+
+            } catch (error) {
+                console.error("Error en login:", error);
+                alert("Error de conexión con el servidor");
+            }
         });
     }
 
 });
-
-
-function applySort() {
-    const selected = document.querySelector("input[name='sort']:checked");
-
-    if (!selected) {
-        alert("Selecciona un tipo de orden");
-        return;
-    }
-
-    console.log("Orden seleccionado:", selected.value);
-}
-
-
-function resetSort() {
-    document.querySelectorAll("input[name='sort']")
-        .forEach(r => r.checked = false);
-}
-
-
-function getFilters() {
-    const checkboxes = document.querySelectorAll(".filter-menu input[type='checkbox']:checked");
-
-    const values = Array.from(checkboxes).map(cb => cb.value);
-
-    console.log("Filtros:", values);
-}

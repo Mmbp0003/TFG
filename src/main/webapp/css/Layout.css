@@ -1,0 +1,165 @@
+:root {
+    --bg-main: #F8F8F8;
+    --bg-card: #EDEDED;
+    --text-main: #333;
+    --text-secondary: #7A7A7A;
+    --accent: #E63946;
+    --structure: #2C2C2C;
+    --structure-hover: #3B3B3B;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* ===== WRAPPER GENERAL ===== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ===== SIDEBAR (IZQUIERDA FIJA) ===== */
+.sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: var(--structure);
+    flex-shrink: 0;
+}
+
+/* ===== ZONA DERECHA (TOPBAR + CONTENIDO) ===== */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ===== TOPBAR (ARRIBA) ===== */
+.navbar {
+    flex-shrink: 0;
+}
+
+/* ===== CONTENIDO ===== */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: var(--bg-main);
+}
+
+/* opcional: centrado tipo app */
+.main-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+.bg-dark {
+    background-color: var(--structure) !important;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #b5b5b5;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 18px;
+}
+
+/* HOVER */
+.sidebar-nav .nav-link:hover {
+    background: var(--structure-hover);
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+/* INDICADOR LATERAL */
+.sidebar-nav .nav-link::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: transparent;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.sidebar-nav .nav-link:hover::before {
+    background: var(--accent);
+}
+
+/* ACTIVO */
+.sidebar-nav .nav-link.active {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.sidebar-nav .nav-link.active::before {
+    background: #ffffff;
+}
+
+
+/* =========================
+   TOPBAR
+   ========================= */
+.navbar {
+    background-color: var(--structure) !important;
+}
+
+.app-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+/* LINKS */
+.topbar-nav .nav-link {
+    color: #b5b5b5;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.topbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+/* ACTIVO */
+.topbar-nav .nav-link.active {
+    color: #ffffff;
+}
+
+/* SUBRAYADO */
+.topbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--accent);
+    transition: 0.3s;
+}
+
+.topbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+.topbar-nav .nav-link.active::after {
+    width: 100%;
+}
