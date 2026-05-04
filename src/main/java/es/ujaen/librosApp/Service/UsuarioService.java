@@ -34,21 +34,17 @@ public class UsuarioService {
     public Usuario registrar(Usuario usuario) {
         Optional<Usuario> existente = usuarioRepository.findByEmail(usuario.getEmail());
 
-
         if (existente.isPresent()) {
             throw new RuntimeException("Ese correo electrónico ya está registrado");
         }
 
-        if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
-            usuario.setRol("USER");
-        }
-
+        String claveCifrada = passwordEncoder.encode(usuario.getClave());
+        usuario.setClave(claveCifrada);
 
         return usuarioRepository.save(usuario);
     }
 
     public Usuario login(String email, String clave){
-
         Usuario usu = usuarioRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("El correo introducido no es correcto"));
         System.out.println("el usuario es" + usu.getEmail() + " y si contraseña es " + usu.getClave() );
 

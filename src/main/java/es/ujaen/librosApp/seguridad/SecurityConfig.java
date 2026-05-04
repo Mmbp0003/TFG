@@ -4,6 +4,7 @@ import es.ujaen.librosApp.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,18 +25,16 @@ public class SecurityConfig {
 
     //TENGO QUE ELIMINARLO !!!
     @Bean
-    public CommandLineRunner encriptarUsuarios(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) { //Se ejecuta al iniciar la aplicación
+    public CommandLineRunner encriptarUsuarios(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            usuarioRepository.findAll().forEach(usuario -> { //recorre todos los usuarios
-                String clave = usuario.getClave(); //Obtiene la contraseña actual
-
-                if (!clave.startsWith("$2a$")) { //Comprueba si esta cifrada
-                    String claveCifrada = passwordEncoder.encode(clave); //Si no lo está la cifra
+            usuarioRepository.findAll().forEach(usuario -> {
+                String clave = usuario.getClave();
+                if (!clave.startsWith("$2a$")) {
+                    String claveCifrada = passwordEncoder.encode(clave);
                     usuario.setClave(claveCifrada);
-                    usuarioRepository.save(usuario); //Guarda la nueva contraseña
+                    usuarioRepository.save(usuario);
                     System.out.println("Usuario " + usuario.getEmail() + " actualizado y cifrado");
                 }
-
             });
         };
     }
@@ -45,27 +44,26 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enlazamos explícitamente el CORS
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/usuarios/login",
-                                "/Vistas/**",
-                                "/js/**",
-                                "/css/**"
-                        ).permitAll()
+                        // Permitimos explícitamente las peticiones POST a registro y login
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/registro").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
+                        // Permitimos las carpetas de vistas y estáticos
+                        .requestMatchers("/Vistas/**", "/js/**", "/css/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
         return http.build();
     }
 
-
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() { //Definimos que peticiones externas permitimos
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("*")); //Cualquier origen
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); //Permite estos métodos
-        config.setAllowedHeaders(Arrays.asList("*")); //Permite con cualquier cabecera
+        config.setAllowedOrigins(Arrays.asList("*"));
+        // Añadimos OPTIONS, que es un método que usan los navegadores antes del POST por seguridad
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

@@ -17,26 +17,25 @@ public class Usuario {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     int id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío.")
     String nombre;
 
-    @NotBlank
+    @NotBlank (message = "Los apellidos no pueden estar vacíos.")
     String apellidos;
 
-    @NotNull
-    @Past
+    @NotNull (message = "La fecha de nacimiento es obligatoria.")
+    @Past (message = "La fecha de nacimiento debe ser una fecha pasada.")
     LocalDate fechaNacimiento;
 
-    @Email
-    @NotBlank
+    @Email (message = "El correo electrónico es obligatorio.")
+    @NotBlank (message = "El formato del correo electrónico no es válido.")
     String email;
 
-    @NotBlank
-    @Size(min = 5)
+    @NotBlank (message = "La contraseña no puede estar vacía.")
+    @Size(min = 5, message = "La contraseña debe tener al menos 5 caracteres.")
     String clave;
 
-    @NotBlank
-    String rol;
+    String rol = "USER";
 
     //------------------------------------------- RELACIONES ---------------------------------------------------
 

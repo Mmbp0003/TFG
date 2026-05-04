@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 import java.util.List;
 
 
@@ -34,8 +37,19 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.registrar(usuario);
+    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String mensajeError = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(mensajeError);
+        }
+
+        try {
+            Usuario nuevoUsuario = usuarioService.registrar(usuario);
+            return ResponseEntity.ok(nuevoUsuario);
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
