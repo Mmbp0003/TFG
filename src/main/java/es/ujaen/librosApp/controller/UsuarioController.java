@@ -3,6 +3,7 @@ package es.ujaen.librosApp.controller;
 import es.ujaen.librosApp.DTO.DTOLogin;
 import es.ujaen.librosApp.model.Usuario;
 import es.ujaen.librosApp.Service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,13 +58,33 @@ public class UsuarioController {
         usuarioService.borrarCuenta(id);
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<?> inicioSesion (@RequestBody DTOLogin dtoLogin){
+    public ResponseEntity<?> inicioSesion (@RequestBody DTOLogin dtoLogin, HttpSession session){
         try{
             Usuario usuLogin = usuarioService.login(dtoLogin.getEmail(), dtoLogin.getClave());
-            return  ResponseEntity.ok(usuLogin);
+
+            // 🔥 CLAVE: guardar usuario en sesión
+            session.setAttribute("usuario", usuLogin);
+
+            return ResponseEntity.ok(usuLogin);
+
         } catch (RuntimeException e){
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+
+    // 🔥 USUARIO LOGUEADO
+    @GetMapping("/me")
+    public ResponseEntity<?> usuarioActual(HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null){
+            return ResponseEntity.status(401).body("No autenticado");
+        }
+
+        return ResponseEntity.ok(usuario);
+    }
+
 }

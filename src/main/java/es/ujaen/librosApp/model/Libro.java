@@ -69,13 +69,7 @@ public class Libro {
     )
     private List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "libro_mood",
-            joinColumns = @JoinColumn(name = "libro_id"),
-            inverseJoinColumns = @JoinColumn(name = "mood_id")
-    )
-    private List<Mood> moods = new ArrayList<>();
+
 
     //----------------------------CONSTRUCTORES-------------------------------
 
@@ -131,6 +125,4 @@ public class Libro {
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
 
-    public List<Mood> getMoods() { return moods; }
-    public void setMoods(List<Mood> moods) { this.moods = moods; }
 }

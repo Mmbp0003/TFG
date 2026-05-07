@@ -19,21 +19,24 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(); //Para cifrar las contraseñas
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    //TENGO QUE ELIMINARLO !!!
+    // ⚠️ SOLO PARA DESARROLLO (elimínalo después)
     @Bean
-    public CommandLineRunner encriptarUsuarios(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public CommandLineRunner encriptarUsuarios(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder
+    ) {
         return args -> {
             usuarioRepository.findAll().forEach(usuario -> {
                 String clave = usuario.getClave();
-                if (!clave.startsWith("$2a$")) {
-                    String claveCifrada = passwordEncoder.encode(clave);
-                    usuario.setClave(claveCifrada);
+
+                if (clave != null && !clave.startsWith("$2a$")) {
+                    usuario.setClave(passwordEncoder.encode(clave));
                     usuarioRepository.save(usuario);
-                    System.out.println("Usuario " + usuario.getEmail() + " actualizado y cifrado");
+                    System.out.println("Usuario " + usuario.getEmail() + " cifrado");
                 }
             });
         };
@@ -44,29 +47,59 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enlazamos explícitamente el CORS
+
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 .authorizeHttpRequests(auth -> auth
-                        // Permitimos explícitamente las peticiones POST a registro y login
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/registro").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
-                        // Permitimos las carpetas de vistas y estáticos
-                        .requestMatchers("/Vistas/**", "/js/**", "/css/**").permitAll()
-                        .anyRequest().authenticated()
-                );
+
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+
+                                "/Vistas/**",
+                                "/css/**",
+                                "/js/**",
+                                "/img/**",
+                                "/images/**",
+                                "/favicon.ico"
+
+                        ).permitAll()
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/usuarios/login",
+                                "/api/usuarios/registro"
+                        ).permitAll()
+
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
+
+                        .anyRequest()
+                        .authenticated()
+                )
+
+        // si luego usas JWT aquí irá:
+        // .sessionManagement(session ->
+        //         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+        // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+        ;
 
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
+
         config.setAllowedOrigins(Arrays.asList("*"));
-        // Añadimos OPTIONS, que es un método que usan los navegadores antes del POST por seguridad
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 }

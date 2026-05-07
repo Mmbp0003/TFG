@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil - BookSocial</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/Perfil.css">
+</head>
+
+<body>
+
+<div id="layout"></div>
+
+<div id="page-content" style="display:none;">
+    <div class="d-flex">
+
+        <div class="flex-grow-1">
+
+            <div class="profile-container container mt-4">
+
+                <!-- BOTONES -->
+                <div class="profile-actions-top">
+                    <button id="btn-seguir" class="btn btn-accent btn-sm" style="display: none;">
+                        <i class="bi bi-person-plus-fill"></i> Seguir
+                    </button>
+
+                    <button id="btn-dejar-seguir" class="btn btn-outline-accent btn-sm" style="display: none;">
+                        <i class="bi bi-person-dash-fill"></i> Dejar de seguir
+                    </button>
+
+                    <button id="btn-editar" class="btn btn-secondary-profile btn-sm" style="display: none;">
+                        <i class="bi bi-pencil-square"></i> Editar Perfil
+                    </button>
+                </div>
+
+                <!-- HEADER -->
+                <div class="profile-header">
+
+                    <div class="profile-user-info">
+                        <h2 class="profile-name" id="nombre-usuario"></h2>
+                    </div>
+
+                    <div class="profile-stats">
+
+                        <div class="profile-stat">
+                            <span class="profile-stat-number" id="total-leidos">0</span>
+                            <span class="profile-stat-label">Leídos</span>
+                        </div>
+
+                        <div class="profile-stat">
+                            <span class="profile-stat-number" id="leidos-ano">0</span>
+                            <span class="profile-stat-label">Este año</span>
+                        </div>
+
+                        <div class="profile-stat">
+                            <span class="profile-stat-number" id="media">0</span>
+                            <span class="profile-stat-label">Media</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BODY -->
+            <div class="profile-body row">
+
+                <!-- IZQUIERDA -->
+                <div class="col-lg-8 profile-left">
+
+                    <!-- LECTURAS DEL AÑO -->
+                    <div class="profile-section">
+                        <h5 class="profile-section-title">Lecturas del año</h5>
+
+                        <div class="profile-scroll-row" id="lecturas">
+                            <!-- JS inserta libros -->
+                        </div>
+                    </div>
+
+                    <!-- FAVORITOS -->
+                    <div class="profile-section">
+                        <h5 class="profile-section-title">Favoritos</h5>
+
+                        <div class="profile-scroll-row" id="favoritos">
+                            <!-- JS inserta libros -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- DERECHA -->
+                <div class="col-lg-4 profile-right">
+
+                    <!-- SEGUIDORES -->
+                    <div class="profile-card">
+                        <h5 class="profile-card-title">Seguidores</h5>
+
+                        <div class="profile-list" id="seguidores">
+                            <!-- JS inserta usuarios -->
+                        </div>
+                    </div>
+
+                    <!-- SIGUIENDO -->
+                    <div class="profile-card">
+                        <h5 class="profile-card-title">Siguiendo</h5>
+
+                        <div class="profile-list" id="siguiendo">
+                            <!-- JS inserta usuarios -->
+                        </div>
+                    </div>
+
+                    <!-- ACTIVIDAD -->
+                    <div class="profile-card">
+                        <h5 class="profile-card-title">Actividad reciente</h5>
+
+                        <div id="actividad">
+                            <!-- JS inserta actividad -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="/js/Layout.js"></script>
+<script src="/js/Perfil.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

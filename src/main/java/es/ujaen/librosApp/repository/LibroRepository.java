@@ -14,5 +14,5 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
     //Filtrado
     List<Libro> findByGenerosNombreIgnoreCase(String nombreGenero);
     List<Libro> findByTagsNombreIgnoreCase(String nombreTag); // Asumiendo que Tag tiene 'nombre'
-    List<Libro> findByMoodsNombreIgnoreCase(String nombreMood); // Asumiendo que Mood tiene 'nombre'
+
 }
