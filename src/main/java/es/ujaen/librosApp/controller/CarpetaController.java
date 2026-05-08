@@ -1,7 +1,13 @@
 package es.ujaen.librosApp.controller;
 
+import es.ujaen.librosApp.DTO.DTOCarpeta;
+import es.ujaen.librosApp.DTO.DTOLibro;
+import es.ujaen.librosApp.Service.LibroService;
 import es.ujaen.librosApp.model.Carpeta;
 import es.ujaen.librosApp.Service.CarpetaService;
+import es.ujaen.librosApp.model.Usuario;
+
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -12,6 +18,9 @@ public class CarpetaController {
 
     @Autowired
     private CarpetaService carpetaService;
+
+    @Autowired
+    private LibroService libroService;
 
     @GetMapping("/usuario/{usuarioId}")
     public List<Carpeta> getCarpetas(@PathVariable int usuarioId) {
@@ -36,5 +45,22 @@ public class CarpetaController {
     @DeleteMapping("/{carpetaId}/libros/{libroId}")
     public Carpeta quitarLibro(@PathVariable int carpetaId, @PathVariable int libroId) {
         return carpetaService.quitarLibro(carpetaId, libroId);
+    }
+
+    @GetMapping("/mias")
+    public List<DTOCarpeta> getMisCarpetas(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            throw new RuntimeException("No autenticado");
+        }
+
+        return carpetaService.listarPorUsuario(usuario.getId()).stream()
+                .map(carpeta -> {
+                    List<DTOLibro> libros = carpeta.getLibros().stream()
+                            .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                            .toList();
+                    return new DTOCarpeta(carpeta, libros);
+                })
+                .toList();
     }
 }

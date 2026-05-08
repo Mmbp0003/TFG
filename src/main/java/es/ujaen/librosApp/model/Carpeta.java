@@ -24,6 +24,12 @@ public class Carpeta {
     @NotNull
     private LocalDateTime fechaCreacion;
 
+    @Column(nullable = false)
+    private boolean Fijas = false;
+
+    @Column(nullable = false)
+    private String tipo = "CUSTOM";
+
     //-----------------------------RELACIONES--------------------------------------------
     @JsonIgnore
     @ManyToMany
@@ -66,5 +72,12 @@ public class Carpeta {
     public void setUsuario (Usuario usuario) { this.usuario = usuario; }
     public Usuario getUsuario () {return usuario;}
 
+    public void setFechaCreacion (LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
     public LocalDateTime getFechaCreacion () { return fechaCreacion; }
+
+    public boolean getFijas() { return Fijas; }
+    public void setFijas(boolean fijas) { Fijas = fijas; }
+
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

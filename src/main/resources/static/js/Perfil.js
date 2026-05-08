@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 carpeta.libros.forEach(libro => {
                     const img = document.createElement("img");
-                    img.src = libro.portada || "/img/portada-default.jpg";
+                    img.src = libro.portada ? `/img/${libro.portada}` : "/img/portada_default.jpg";
                     img.alt = libro.titulo || "";
                     img.className = "profile-book";
                     img.title = libro.titulo || "";

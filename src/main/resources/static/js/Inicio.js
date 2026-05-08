@@ -54,8 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : `<i class="bi bi-star"></i> Sin reseñas`;
 
             card.innerHTML = `
-                <img src="${libro.portada || '/img/portada-default.jpg'}"
-                     class="book-img" alt="Portada de ${libro.titulo}">
+                <img src="${libro.portada ? '/img/' + libro.portada : '/img/portada-default.jpg'}" class="book-img" alt="Portada de ${libro.titulo}">
                 <div class="book-info">
                     <div class="book-header">
                         <h5 class="book-title">${libro.titulo}</h5>

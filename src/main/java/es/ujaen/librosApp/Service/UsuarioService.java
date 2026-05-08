@@ -2,7 +2,9 @@ package es.ujaen.librosApp.Service;
 
 import es.ujaen.librosApp.DTO.DTOPerfil;
 import es.ujaen.librosApp.model.Actividad;
+import es.ujaen.librosApp.model.Carpeta;
 import es.ujaen.librosApp.model.Usuario;
+import es.ujaen.librosApp.repository.CarpetaRepository;
 import es.ujaen.librosApp.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CarpetaRepository carpetaRepository;
 
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
@@ -45,7 +50,26 @@ public class UsuarioService {
         String claveCifrada = passwordEncoder.encode(usuario.getClave());
         usuario.setClave(claveCifrada);
 
-        return usuarioRepository.save(usuario);
+        Usuario guardado = usuarioRepository.save(usuario);
+
+        // Crear carpetas fijas automáticamente
+        Carpeta leyendo = new Carpeta();
+        leyendo.setNombre("Leyendo");
+        leyendo.setTipo("LEYENDO");
+        leyendo.setFijas(true);
+        leyendo.setFechaCreacion(LocalDateTime.now());
+        leyendo.setUsuario(guardado);
+        carpetaRepository.save(leyendo);
+
+        Carpeta leidos = new Carpeta();
+        leidos.setNombre("Leídos");
+        leidos.setTipo("LEIDOS");
+        leidos.setFijas(true);
+        leidos.setFechaCreacion(LocalDateTime.now());
+        leidos.setUsuario(guardado);
+        carpetaRepository.save(leidos);
+
+        return guardado;
     }
 
     public Usuario login(String email, String clave){
