@@ -44,62 +44,39 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
-
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
                 .authorizeHttpRequests(auth -> auth
-
-                        .requestMatchers(
-                                "/",
-                                "/index.html",
-
-                                "/Vistas/**",
-                                "/css/**",
-                                "/js/**",
-                                "/img/**",
-                                "/images/**",
-                                "/favicon.ico"
-
-                        ).permitAll()
-
-                        .requestMatchers(HttpMethod.POST,
-                                "/api/usuarios/login",
-                                "/api/usuarios/registro"
-                        ).permitAll()
-
-                        .requestMatchers("/api/admin/**")
-                        .hasRole("ADMIN")
-
-                        .anyRequest()
-                        .authenticated()
+                        .requestMatchers("/", "/index.html", "/Vistas/**", "/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/api/usuarios/me").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/actividades/feed").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login",
+                                "/api/usuarios/registro",
+                                "/api/usuarios/logout").permitAll()
+                        .anyRequest().authenticated()
                 )
 
-        // si luego usas JWT aquí irá:
-        // .sessionManagement(session ->
-        //         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-        // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
-        ;
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED)
+                );
 
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("*"));
+        // ✅ Origen exacto, sin wildcard
+        config.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true); // ✅ Sin esto la sesión no funciona
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
 }

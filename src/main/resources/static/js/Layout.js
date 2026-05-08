@@ -11,14 +11,17 @@ function getRuta() {
     return Rutas[window.location.pathname.split("/").pop().toLowerCase()] || "";
 }
 
+window.usuarioActual = null;
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     const layoutContainer = document.getElementById("layout");
+    const rutaActual = getRuta();
 
+    // ─── 1. CARGAR LAYOUT HTML ───────────────────────────────────────
     try {
         const response = await fetch("/Vistas/layout.html");
         const layoutHTML = await response.text();
-
         layoutContainer.innerHTML = layoutHTML;
 
         const content = document.getElementById("page-content");
@@ -26,23 +29,79 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (content && appContent) {
             appContent.appendChild(content);
-            content.style.display = "block";
-        } else {
-            content.style.display = "block";
         }
+        if (content) content.style.display = "block";
 
-        const current = getRuta();
-
+        // Marcar nav-link activo
         document.querySelectorAll(".nav-link").forEach(link => {
-            if (link.dataset.page === current) {
+            if (link.dataset.page === rutaActual) {
                 link.classList.add("active");
             }
         });
 
+    } catch (e) {
+        console.error("Error cargando layout:", e);
+        return;
+    }
+
+    // ─── 2. COMPROBAR SESIÓN ─────────────────────────────────────────
+    const paginasPublicas = ["login", "registro"];
+
+    if (paginasPublicas.includes(rutaActual)) return;
+
+    try {
+        const res = await fetch("/api/usuarios/me", {
+            credentials: "include"
+        });
+
+        if (!res.ok) {
+            // No hay sesión → mandamos al login
+            window.location.href = "/Vistas/login.html";
+            return;
+        }
+
+        const usuario = await res.json();
+        window.usuarioActual = usuario;
+
+        // ─── 3. PINTAR DATOS EN EL NAVBAR ────────────────────────────
+        const nombreNav = document.getElementById("navbar-nombre");
+        if (nombreNav) nombreNav.textContent = usuario.nombre;
+
+
+        const verPerfil = document.getElementById("navbar-ver-perfil");
+        if (verPerfil) verPerfil.href = `/Vistas/perfil.html?id=${usuario.id}`;
+
+        document.querySelectorAll("a[data-page='perfil']").forEach(link => {
+            link.href = `/Vistas/Perfil.html?id=${usuario.id}`;
+        });
+
+        // Botón cerrar sesión
+        const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
+        if (btnCerrarSesion) {
+            btnCerrarSesion.addEventListener("click", async (e) => {
+                e.preventDefault();
+                await fetch("/api/usuarios/logout", {
+                    method: "POST",
+                    credentials: "include"
+                });
+                localStorage.removeItem("usuario");
+                window.location.href = "/Vistas/login.html";
+            });
+        }
+
+        // Mostrar botón admin solo si tiene el rol
         const adminBtn = document.getElementById("admin-panel-btn");
-        if (adminBtn) adminBtn.style.display = "inline-block";
+        if (adminBtn) {
+            adminBtn.style.display = usuario.rol === "ADMIN" ? "inline-block" : "none";
+        }
+
+        // ─── 4. AVISAR AL JS DE LA VISTA QUE EL USUARIO YA ESTÁ LISTO ─
+        document.dispatchEvent(new CustomEvent("usuarioListo", {
+            detail: usuario
+        }));
 
     } catch (e) {
-        console.error("Error layout:", e);
+        console.error("Error comprobando sesión:", e);
+        window.location.href = "/Vistas/login.html";
     }
 });

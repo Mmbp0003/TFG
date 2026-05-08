@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const dtoLogin = { email, clave };
 
         try {
-            const response = await fetch("http://localhost:8080/api/usuarios/login", {
+            const response = await fetch("/api/usuarios/login", {
                 method: "POST",
+                credentials: "include", // 🔥 CLAVE PARA SESIÓN
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(dtoLogin)
             });
 
-            // 🔴 IMPORTANTE: primero leer como texto (evita el JSON.parse roto)
             const dataText = await response.text();
 
             if (!response.ok) {
@@ -27,28 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 🔵 ahora sí intentamos convertir a JSON de forma segura
             let usuario;
             try {
                 usuario = JSON.parse(dataText);
             } catch (e) {
-                console.error("Respuesta del servidor NO es JSON:", dataText);
-                alert("Error del servidor (respuesta inválida)");
+                console.error("Respuesta no válida:", dataText);
+                alert("Error del servidor");
                 return;
             }
 
-            delete usuario.clave;
+            // Guardamos el objeto usuario (que trae el ID, nombre, etc.) en el "disco duro" del navegador
+            localStorage.setItem('usuario', JSON.stringify(usuario));
+            console.log("Usuario guardado en localStorage:", usuario);
+            // ------------------------------
 
-            const recordar = document.getElementById("checkDefault").checked;
-
-            const usuarioJSON = JSON.stringify(usuario);
-
-            if (recordar) {
-                localStorage.setItem("usuarioLogueado", usuarioJSON);
-            } else {
-                sessionStorage.setItem("usuarioLogueado", usuarioJSON);
-            }
-
+            // Ahora sí, nos vamos a la otra página
             window.location.href = "Inicio.html";
 
         } catch (error) {

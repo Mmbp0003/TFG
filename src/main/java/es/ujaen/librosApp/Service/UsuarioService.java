@@ -1,13 +1,17 @@
 package es.ujaen.librosApp.Service;
 
+import es.ujaen.librosApp.DTO.DTOPerfil;
+import es.ujaen.librosApp.model.Actividad;
 import es.ujaen.librosApp.model.Usuario;
 import es.ujaen.librosApp.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 @Service
 public class UsuarioService {
@@ -59,5 +63,78 @@ public class UsuarioService {
 
     public void borrarCuenta(int id) {
         usuarioRepository.deleteById(id);
+    }
+
+    public DTOPerfil obtenerPerfilDTO(int id) {
+        Usuario usuario = obtenerPorId(id); // Reutilizamos tu método existente
+
+        DTOPerfil dto = new DTOPerfil();
+        dto.setId(usuario.getId());
+        dto.setNombre(usuario.getNombre());
+        dto.setApellidos(usuario.getApellidos());
+
+        // 1. Mapear Libros Guardados
+        dto.setLibrosGuardados(usuario.getLibrosGuardados().stream().map(l -> {
+            DTOPerfil.LibroPerfil lp = new DTOPerfil.LibroPerfil();
+            lp.setId(l.getId());
+            lp.setTitulo(l.getTitulo());
+            lp.setPortada(l.getPortada());
+            return lp;
+        }).toList());
+
+        // 2. Mapear Seguidores (Obtenemos al 'seguidor' de cada relación)
+        dto.setSeguidores(usuario.getSeguidores().stream().map(r -> {
+            DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
+            up.setId(r.seguidor().getId());
+            up.setNombre(r.seguidor().getNombre());
+            up.setApellidos(r.seguidor().getApellidos());
+            return up;
+        }).toList());
+
+        // 3. Mapear Siguiendo (Obtenemos al 'seguido' de cada relación)
+        dto.setSiguiendo(usuario.getSiguiendo().stream().map(r -> {
+            DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
+            up.setId(r.getSeguidos().getId());
+            up.setNombre(r.getSeguidos().getNombre());
+            up.setApellidos(r.getSeguidos().getApellidos());
+            return up;
+        }).toList());
+
+        // 4. Mapear Carpetas
+        dto.setCarpetas(usuario.getCarpetas().stream().map(c -> {
+            DTOPerfil.CarpetaPerfil cp = new DTOPerfil.CarpetaPerfil();
+            cp.setId(c.getId());
+            cp.setNombre(c.getNombre());
+            // Mapear libros dentro de la carpeta
+            cp.setLibros(c.getLibros().stream().map(l -> {
+                DTOPerfil.LibroPerfil lp = new DTOPerfil.LibroPerfil();
+                lp.setId(l.getId());
+                lp.setPortada(l.getPortada());
+                return lp;
+            }).toList());
+            return cp;
+        }).toList());
+
+        List<Actividad> actividades = usuario.getActividades();
+        int anoActual = LocalDateTime.now().getYear();
+
+        // Leídos este año
+        long leidosAno = actividades.stream()
+                .filter(a -> a.getTipo() == Actividad.TipoActividad.LIBRO_ACABADO)
+                .filter(a -> a.getFecha().getYear() == anoActual)
+                .count();
+        dto.setLeidosEsteAno((int) leidosAno);
+
+        // Media de reseñas
+        OptionalDouble media = actividades.stream()
+                .filter(a -> a.getTipo() == Actividad.TipoActividad.RESENA)
+                .filter(a -> a.getValor() != null)
+                .mapToDouble(Actividad::getValor)
+                .average();
+        dto.setMediaResenas(media.isPresent()
+                ? Math.round(media.getAsDouble() * 10.0) / 10.0  // redondeo a 1 decimal
+                : 0.0);
+
+        return dto;
     }
 }

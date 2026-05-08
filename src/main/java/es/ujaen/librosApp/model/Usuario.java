@@ -51,6 +51,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comentario> comentarios = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuario_libro",
@@ -59,9 +60,11 @@ public class Usuario {
     )
     private List<Libro> librosGuardados = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "seguidor", fetch = FetchType.LAZY)
     private List<Relacion> siguiendo = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "seguido", fetch = FetchType.LAZY)
     private List<Relacion> seguidores = new ArrayList<>();
 
