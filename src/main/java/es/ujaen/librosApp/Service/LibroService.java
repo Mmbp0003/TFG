@@ -41,6 +41,10 @@ public class LibroService {
         return libroRepository.findByTituloContainingIgnoreCase(titulo);
     }
 
+    public List<Libro> buscarPorTituloOAutor(String query) {
+        return libroRepository.findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCase(query, query);
+    }
+
     public List<Libro> buscarPorGenero(String genero) {
         return libroRepository.findByGenerosNombreIgnoreCase(genero);
     }

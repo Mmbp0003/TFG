@@ -39,8 +39,17 @@ public class LibroController {
     }
 
     @GetMapping("/buscar")
-    public List<Libro> buscarPorTitulo(@RequestParam String titulo) {
-        return libroService.buscarPorTitulo(titulo);
+    public List<DTOLibro> buscarPorTitulo(@RequestParam String titulo) {
+        return libroService.buscarPorTitulo(titulo).stream()
+                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .toList();
+    }
+
+    @GetMapping("/buscarInteligente")
+    public List<DTOLibro> buscarPorTituloAutor(@RequestParam String titulo) {
+        return libroService.buscarPorTituloOAutor(titulo).stream()
+                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .toList();
     }
 
     @GetMapping("/genero/{genero}")

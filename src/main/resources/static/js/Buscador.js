@@ -1,49 +1,44 @@
-const libros = [
-    { titulo: "El nombre del viento", autor: "Patrick Rothfuss" },
-    { titulo: "El temor de un hombre sabio", autor: "Patrick Rothfuss" },
-    { titulo: "Harry Potter", autor: "J.K. Rowling" },
-    { titulo: "El señor de los anillos", autor: "Tolkien" },
-    { titulo: "Dune", autor: "Frank Herbert" },
-    { titulo: "1984", autor: "George Orwell" }
-];
-
 const input = document.getElementById("searchInput");
 const results = document.getElementById("results");
 
 input.addEventListener("input", () => {
-
-    const value = input.value.toLowerCase().trim();
-
+    const value = input.value.trim();
     results.innerHTML = "";
-
     if (value === "") return;
 
-    const filtered = libros.filter(libro =>
-        libro.titulo.toLowerCase().includes(value)
-    );
+    fetch(`/api/libros/buscarInteligente?titulo=${encodeURIComponent(value)}`, { credentials: "include" })
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+        })
+        .then(libros => {
+            if (libros.length === 0) {
+                results.innerHTML = "<p class='text-muted ps-2'>No se encontraron libros</p>";
+                return;
+            }
 
-    filtered.forEach(libro => {
+            libros.forEach(libro => {
+                const div = document.createElement("div");
+                div.classList.add("result-item");
+                div.style.cursor = "pointer";
 
-        const div = document.createElement("div");
-        div.classList.add("result-item");
+                div.innerHTML = `
+                    <div>
+                        <div class="result-title">${libro.titulo}</div>
+                        <div class="result-author">${libro.autor}</div>
+                    </div>
+                    <i class="bi bi-book"></i>
+                `;
 
-        div.innerHTML = `
-            <div>
-                <div class="result-title">${libro.titulo}</div>
-                <div class="result-author">${libro.autor}</div>
-            </div>
-            <i class="bi bi-book"></i>
-        `;
+                div.addEventListener("click", () => {
+                    window.location.href = `/Vistas/Libro.html?id=${libro.id}`;
+                });
 
-
-        if (libro.titulo === "El nombre del viento") {
-            div.style.cursor = "pointer";
-
-            div.addEventListener("click", () => {
-                window.location.href = "Libro.html";
+                results.appendChild(div);
             });
-        }
-
-        results.appendChild(div);
-    });
+        })
+        .catch(err => {
+            console.error(err);
+            results.innerHTML = `<p class='text-danger'>Error al buscar: ${err.message}</p>`;
+        });
 });
