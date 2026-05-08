@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/index.html", "/Vistas/**", "/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
                         .requestMatchers("/api/usuarios/me").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/actividades/feed").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/actividades/feed", "/api/libros", "/api/libros/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/login",
                                 "/api/usuarios/registro",
                                 "/api/usuarios/logout").permitAll()

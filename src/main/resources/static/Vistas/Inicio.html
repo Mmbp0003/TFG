@@ -42,21 +42,21 @@
                                 <label class="label-filter-option-item"><input type="checkbox" value="novela_negra">
                                     Novela
                                     Negra</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="novela_historica">
+                                <label class="label-filter-option-item"><input type="checkbox" value="historica">
                                     Novela
                                     Histórica</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="romantica">
+                                <label class="label-filter-option-item"><input type="checkbox" value="romance">
                                     Romántica</label>
                                 <label class="label-filter-option-item"><input type="checkbox" value="ciencia_ficcion">
                                     Ciencia
                                     Ficción</label>
                                 <label class="label-filter-option-item"><input type="checkbox" value="distopia">
                                     Distopía</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="aventuras">
+                                <label class="label-filter-option-item"><input type="checkbox" value="aventura">
                                     Aventuras</label>
                                 <label class="label-filter-option-item"><input type="checkbox" value="fantasia">
                                     Fantasía</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="contemporaneo">
+                                <label class="label-filter-option-item"><input type="checkbox" value="contemporanea">
                                     Contemporáneo</label>
                                 <label class="label-filter-option-item"><input type="checkbox" value="terror">
                                     Terror</label>
@@ -137,31 +137,6 @@
                             </div>
                         </div>
 
-                        <!--MOOD-->
-                        <h4 class="heading">Estoy en el mood de ... </h4>
-
-                        <div class="filter-section">
-                            <div class="filter-menu-check-boxes">
-
-                                <label class="label-filter-option-item"><input type="checkbox" value="inspiring">
-                                    Inspiring</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="emotional">
-                                    Emotional</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="reflective">
-                                    Reflective</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="informative">
-                                    Informative</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="hopeful">
-                                    Hopeful</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="challenging">
-                                    Challenging</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="dark">
-                                    Dark</label>
-                                <label class="label-filter-option-item"><input type="checkbox" value="tense">
-                                    Tense</label>
-
-                            </div>
-                        </div>
 
                         <!--OPCIONES-->
                         <h4 class="heading">MÁS OPCIONES</h4>
@@ -172,7 +147,7 @@
                         </div>
 
                         <div class="filter-section">
-                            <p>Número de palabras</p>
+                            <p>Número de páginas</p>
                             <div class="d-flex gap-2">
                                 <input type="number" placeholder="Desde" id="words_from">
                                 <input type="number" placeholder="Hasta" id="words_to">
@@ -247,72 +222,10 @@
                 <br>
                 <br>
 
-                <div class="book-card">
-
-                    <img src="https://m.media-amazon.com/images/I/91MsOKbHjVL.jpg"
-                         class="book-img"
-                         alt="Portada">
-
-                    <div class="book-info">
-
-                        <!-- TÍTULO -->
-                        <div class="book-header">
-                            <h5 class="book-title">El nombre del viento</h5>
-                            <span class="book-author">Patrick Rothfuss</span>
-                        </div>
-
-                        <!-- DESCRIPCIÓN -->
-                        <p class="book-description">
-                            En una posada en tierra de nadie, un hombre se dispone a relatar, por primera vez, la
-                            auténtica
-                            historia de su vida...
-                        </p>
-
-                        <!-- FOOTER -->
-                        <div class="book-footer">
-
-                            <!-- RATING -->
-                            <span class="book-rating">
-                <i class="bi bi-star-fill"></i>
-                4.5
-            </span>
-
-                            <!-- BOTONES -->
-                            <div class="book-actions">
-
-                                <a class="btn btn-view" href="Libro.html">Ver</a>
-
-                                <div class="dropdown d-inline">
-
-                                    <button class="btn btn-save dropdown-toggle" data-bs-toggle="dropdown">
-                                        Guardar
-                                    </button>
-
-                                    <ul class="dropdown-menu dropdown-menu-end">
-
-                                        <li><h6 class="dropdown-header">Mis listas</h6></li>
-
-                                        <li><a class="dropdown-item" href="#">Favoritos</a></li>
-                                        <li><a class="dropdown-item" href="#">Quiero leer</a></li>
-                                        <li><a class="dropdown-item" href="#">Leídos</a></li>
-
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">+ Crear nueva lista</a></li>
-
-                                    </ul>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+                <div id="libros-container">
+                    <!-- JS inserta los libros aquí -->
                 </div>
+
             </div>
         </div>
     </div>

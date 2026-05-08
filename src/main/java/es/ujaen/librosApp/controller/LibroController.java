@@ -1,5 +1,6 @@
 package es.ujaen.librosApp.controller;
 
+import es.ujaen.librosApp.DTO.DTOLibro;
 import es.ujaen.librosApp.model.Libro;
 import es.ujaen.librosApp.Service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ public class LibroController {
     private LibroService libroService;
 
     @GetMapping
-    public List<Libro> obtenerTodos() {
-        return libroService.obtenerTodos();
+    public List<DTOLibro> obtenerTodos() {
+        return libroService.obtenerTodos().stream()
+                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .toList();
     }
 
 
@@ -48,5 +51,16 @@ public class LibroController {
    @GetMapping("/{id}/media")
     public double obtenerNotaMedia(@PathVariable int id) {
         return libroService.calcularNotaMedia(id);
+    }
+
+    @GetMapping("/filtrar")
+    public List<DTOLibro> filtrar(
+            @RequestParam(required = false) List<String> generos,
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) Double ratingMin,
+            @RequestParam(required = false) Integer paginasMin,
+            @RequestParam(required = false) Integer paginasMax,
+            @RequestParam(required = false) String orden) {
+        return libroService.obtenerConFiltros(generos, tags, ratingMin, paginasMin, paginasMax, orden);
     }
 }

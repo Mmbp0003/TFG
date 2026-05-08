@@ -1,5 +1,6 @@
 package es.ujaen.librosApp.Service;
 
+import es.ujaen.librosApp.DTO.DTOLibro;
 import es.ujaen.librosApp.model.Libro;
 import es.ujaen.librosApp.model.Resena;
 import es.ujaen.librosApp.repository.LibroRepository;
@@ -60,5 +61,51 @@ public class LibroService {
         }
 
         return Math.round((suma / resenas.size()) * 100.0) / 100.0;
+    }
+
+    private String normalizar(String s) {
+        return java.text.Normalizer.normalize(s.toLowerCase().replace(" ", "_"),
+                        java.text.Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    public List<DTOLibro> obtenerConFiltros(List<String> generos, List<String> tags,
+                                            Double ratingMin, Integer paginasMin,
+                                            Integer paginasMax, String orden) {
+        List<Libro> todos = libroRepository.findAll();
+
+        return todos.stream()
+                // Filtro por géneros
+                .filter(libro -> generos == null || generos.isEmpty() ||
+                        libro.getGeneros().stream()
+                                .anyMatch(g -> generos.contains(normalizar(g.getNombre()))))
+                // Filtro por tags
+                .filter(libro -> tags == null || tags.isEmpty() ||
+                        libro.getTags().stream()
+                                .anyMatch(t -> tags.contains(normalizar(t.getNombre()))))
+                // Convertir a DTO con media
+                .map(libro -> {
+                    double media = libro.getResenasLibro().isEmpty() ? 0.0 :
+                            Math.round(libro.getResenasLibro().stream()
+                                    .mapToDouble(r -> r.getPuntuacion())
+                                    .average().orElse(0.0) * 10.0) / 10.0;
+                    return new DTOLibro(libro, media);
+                })
+                // Filtro por rating mínimo
+                .filter(dto -> ratingMin == null || dto.getMediaResenas() >= ratingMin)
+                // Filtro por páginas
+                .filter(dto -> paginasMin == null || dto.getPaginas() >= paginasMin)
+                .filter(dto -> paginasMax == null || dto.getPaginas() <= paginasMax)
+                // Ordenar
+                .sorted((a, b) -> switch (orden != null ? orden : "") {
+                    case "rating_desc" -> Double.compare(b.getMediaResenas(), a.getMediaResenas());
+                    case "rating_asc"  -> Double.compare(a.getMediaResenas(), b.getMediaResenas());
+                    case "date_desc"   -> b.getFechaPublicacion().compareTo(a.getFechaPublicacion());
+                    case "date_asc"    -> a.getFechaPublicacion().compareTo(b.getFechaPublicacion());
+                    case "title_asc"   -> a.getTitulo().compareToIgnoreCase(b.getTitulo());
+                    case "title_desc"  -> b.getTitulo().compareToIgnoreCase(a.getTitulo());
+                    default            -> 0;
+                })
+                .toList();
     }
 }
