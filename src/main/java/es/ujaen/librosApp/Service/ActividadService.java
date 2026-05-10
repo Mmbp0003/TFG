@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActividadService {
@@ -52,6 +53,10 @@ public class ActividadService {
     public void registrarCarpeta(Usuario usuario, int libroId, String titulo) {
         registrarAccion(usuario, TipoActividad.CARPETA,
                 libroId, titulo, null);
+    }
+
+    public Optional<Actividad> obtenerUltimoProgreso(int usuarioId, int libroId) {
+        return actividadRepository.findTopByUsuarioIdAndReferenciaIdAndTipoOrderByFechaDesc( usuarioId, libroId, TipoActividad.PROGRESO);
     }
 
     // --------- CONSULTAS ---------

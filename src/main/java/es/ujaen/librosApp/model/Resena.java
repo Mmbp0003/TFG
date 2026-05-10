@@ -76,5 +76,6 @@ public class Resena {
     public void setLibro (Libro libro) {this.libro= libro;}
     public Libro getLibro () {return libro;}
 
+    public void setFechaCreacion (LocalDateTime fechaCreacion) {this.fechaCreacion = fechaCreacion;}
     public LocalDateTime getFechaCreacion () { return fechaCreacion; }
 }
