@@ -1,0 +1,58 @@
+:root {
+    --bg-main: rgb(255, 255, 255);
+    --bg-card: #EDEDED;
+    --text-main: #333333;
+    --text-secondary: #7A7A7A;
+    --accent: #E63946;
+    --structure: #2C2C2C;
+    --structure-hover: #3B3B3B;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--structure);
+    margin-bottom: 20px;
+}
+
+.actividad-item {
+    background: var(--bg-card);
+    border: 1px solid #d0d0d0 !important;
+    border-radius: 12px;
+    padding: 16px;
+    transition: 0.2s ease;
+}
+
+.actividad-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07);
+}
+
+.actividad-item i {
+    color: var(--accent);
+}
+
+.actividad-item a {
+    color: var(--structure);
+    font-weight: 600;
+}
+
+.actividad-item a:hover {
+    color: var(--accent);
+}
+
+.actividad-item small {
+    color: var(--text-secondary);
+    font-size: 12px;
+}

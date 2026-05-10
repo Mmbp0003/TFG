@@ -177,7 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
             case "RESENA":        return `${quien} reseñó <strong>${act.textoReferencia}</strong> — ${act.valor}★`;
             case "PROGRESO":      return `${quien} lleva un ${act.valor}% de <strong>${act.textoReferencia}</strong>`;
             case "COMENTARIO":    return `${quien} comentó en <strong>${act.textoReferencia}</strong>`;
-            case "CARPETA":       return `${quien} añadió <strong>${act.textoReferencia}</strong> a una carpeta`;
+            case "CARPETA":
+                if (act.textoReferencia && act.textoReferencia.includes("||")) {
+                    const [libro, carpeta] = act.textoReferencia.split("||");
+                    return `${quien} añadió <strong>${libro.trim()}</strong> a la carpeta <strong>${carpeta.trim()}</strong>`;
+                }
+                return `${quien} añadió <strong>${act.textoReferencia}</strong> a una carpeta`;
             default:              return act.textoReferencia;
         }
     }
@@ -218,15 +223,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (esMiPerfil) {
             btnEditar.style.display = 'inline-block';
-        } else {
-            const yaLoSigo = usuarioPerfil.seguidores?.some(
-                r => r.id === usuarioLogueado.id
-            );
-            yaLoSigo
-                ? (btnDejarSeguir.style.display = 'inline-block')
-                : (btnSeguir.style.display = 'inline-block');
+            return;
         }
+
+        // Preguntamos al backend si ya lo seguimos
+        fetch(`/api/relaciones/comprobar/${perfilId}`, { credentials: "include" })
+            .then(res => res.json())
+            .then(yaLoSigo => {
+                yaLoSigo
+                    ? (btnDejarSeguir.style.display = 'inline-block')
+                    : (btnSeguir.style.display = 'inline-block');
+            });
     }
+
 
     // =========================
     // EVENTOS
@@ -236,8 +245,13 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ seguidoId: perfilId })
-        }).then(() => location.reload());
+            body: JSON.stringify({ seguidoId: parseInt(perfilId) })  // forzar número
+        })
+            .then(res => {
+                if (!res.ok) return res.text().then(t => { throw new Error(t); });
+                location.reload();
+            })
+            .catch(err => console.error("Error al seguir:", err));
     });
 
     btnDejarSeguir.addEventListener("click", () => {
@@ -245,7 +259,12 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ seguidoId: perfilId })
-        }).then(() => location.reload());
+            body: JSON.stringify({ seguidoId: parseInt(perfilId) })  // forzar número
+        })
+            .then(res => {
+                if (!res.ok) return res.text().then(t => { throw new Error(t); });
+                location.reload();
+            })
+            .catch(err => console.error("Error al dejar de seguir:", err));
     });
 });

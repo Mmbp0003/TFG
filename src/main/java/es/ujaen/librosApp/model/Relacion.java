@@ -3,6 +3,7 @@ package es.ujaen.librosApp.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Relacion {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     int id;
 
-    @Past
+    @PastOrPresent
     @NotNull
     LocalDate fechaSeguimiento;
 
