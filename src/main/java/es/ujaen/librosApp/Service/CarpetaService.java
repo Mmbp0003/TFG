@@ -17,6 +17,9 @@ public class CarpetaService {
     @Autowired
     private LibroRepository libroRepository;
 
+    @Autowired
+    private ActividadService actividadService;
+
     public List<Carpeta> listarPorUsuario(int usuarioId) {
         return carpetaRepository.findByUsuarioId(usuarioId);
     }
@@ -35,7 +38,11 @@ public class CarpetaService {
         Libro libro = libroRepository.findById(libroId).orElseThrow();
 
         carpeta.getLibros().add(libro);
-        return carpetaRepository.save(carpeta);
+        Carpeta guardada = carpetaRepository.save(carpeta);
+
+        actividadService.registrarCarpeta(carpeta.getUsuario(), libro.getTitulo(), carpeta.getNombre());
+
+        return guardada;
     }
 
     public Carpeta quitarLibro(int carpetaId, int libroId) {
@@ -45,4 +52,6 @@ public class CarpetaService {
         carpeta.getLibros().remove(libro);
         return carpetaRepository.save(carpeta);
     }
+
+
 }

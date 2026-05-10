@@ -50,9 +50,13 @@ public class ActividadService {
                 refId, texto, null);
     }
 
-    public void registrarCarpeta(Usuario usuario, int libroId, String titulo) {
-        registrarAccion(usuario, TipoActividad.CARPETA,
-                libroId, titulo, null);
+    public void registrarCarpeta(Usuario usuario, String tituloLibro, String nombreCarpeta) {
+        // Combinamos ambos textos con un separador "|"
+        String infoCombinada = tituloLibro + "|" + nombreCarpeta;
+
+        // El tercer parámetro (referenciaId) lo ponemos a null o 0
+        // porque ahora la información va en el String.
+        registrarAccion(usuario, TipoActividad.CARPETA, null, infoCombinada, null);
     }
 
     public Optional<Actividad> obtenerUltimoProgreso(int usuarioId, int libroId) {

@@ -1,6 +1,7 @@
 package es.ujaen.librosApp.DTO;
 
 import es.ujaen.librosApp.model.Actividad;
+import java.time.format.DateTimeFormatter;
 
 public class DTOActividad {
     private int id;
@@ -18,7 +19,7 @@ public class DTOActividad {
         this.referenciaId = a.getReferenciaId();
         this.textoReferencia = a.getTextoReferencia();
         this.valor = a.getValor();
-        this.fecha = a.getFecha().toString();
+        this.fecha = a.getFecha().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         this.nombreUsuario = a.getUsuario().getNombre() + " " + a.getUsuario().getApellidos();
         this.usuarioId = a.getUsuario().getId();
     }

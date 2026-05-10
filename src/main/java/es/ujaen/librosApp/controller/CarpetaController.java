@@ -9,6 +9,7 @@ import es.ujaen.librosApp.model.Usuario;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -38,13 +39,23 @@ public class CarpetaController {
     }
 
     @PostMapping("/{carpetaId}/libros/{libroId}")
-    public Carpeta anadirLibro(@PathVariable int carpetaId, @PathVariable int libroId) {
-        return carpetaService.anadirLibro(carpetaId, libroId);
+    public ResponseEntity<?> anadirLibro(@PathVariable int carpetaId, @PathVariable int libroId) {
+        try {
+            carpetaService.anadirLibro(carpetaId, libroId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al añadir libro: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{carpetaId}/libros/{libroId}")
-    public Carpeta quitarLibro(@PathVariable int carpetaId, @PathVariable int libroId) {
-        return carpetaService.quitarLibro(carpetaId, libroId);
+    public ResponseEntity<?> quitarLibro(@PathVariable int carpetaId, @PathVariable int libroId) {
+        try {
+            carpetaService.quitarLibro(carpetaId, libroId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al quitar libro: " + e.getMessage());
+        }
     }
 
     @GetMapping("/mias")

@@ -1,6 +1,7 @@
 package es.ujaen.librosApp.controller;
 
 import es.ujaen.librosApp.DTO.DTOActividad;
+import es.ujaen.librosApp.Service.UsuarioService;
 import es.ujaen.librosApp.model.Actividad;
 import es.ujaen.librosApp.Service.ActividadService;
 import es.ujaen.librosApp.model.Usuario;
@@ -19,19 +20,28 @@ public class ActividadController {
     @Autowired
     private ActividadService actividadService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("/feed")
     public ResponseEntity<?> obtenerFeedSiguiendo(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) return ResponseEntity.status(401).body("No autenticado");
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuario");
+        if (usuarioSesion == null) return ResponseEntity.status(401).body("No autenticado");
 
-        // Sacar los ids de los usuarios que sigo
+        // Recargar desde BBDD para tener las relaciones disponibles
+        Usuario usuario = usuarioService.obtenerPorId(usuarioSesion.getId());
+
         List<Integer> ids = usuario.getSiguiendo().stream()
                 .map(relacion -> relacion.getSeguidos().getId())
                 .collect(java.util.stream.Collectors.toList());
 
         if (ids.isEmpty()) return ResponseEntity.ok(List.of());
 
-        return ResponseEntity.ok(actividadService.obtenerFeed(ids));
+        return ResponseEntity.ok(
+                actividadService.obtenerFeed(ids).stream()
+                        .map(DTOActividad::new)
+                        .toList()
+        );
     }
 
     @GetMapping("/usuario/{id}")
