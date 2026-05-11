@@ -100,6 +100,47 @@ document.addEventListener("DOMContentLoaded", async () => {
             detail: usuario
         }));
 
+        // ─── 5. BUSCADOR DEL NAVBAR ──────────────────────────────────────
+        const formBusqueda = document.getElementById("form-busqueda");
+        const inputBusqueda = document.getElementById("input-busqueda");
+
+        if (formBusqueda && inputBusqueda) {
+            formBusqueda.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const query = inputBusqueda.value.trim();
+                if (!query) return;
+
+                try {
+                    const res = await fetch(
+                        `/api/libros/buscarInteligente?titulo=${encodeURIComponent(query)}`,
+                        { credentials: "include" }
+                    );
+
+                    if (!res.ok) throw new Error("Error en la búsqueda");
+
+                    const libros = await res.json();
+
+                    if (libros.length === 0) {
+                        inputBusqueda.classList.add("is-invalid");
+                        inputBusqueda.placeholder = "Sin resultados para: " + query;
+                        inputBusqueda.value = "";
+                        setTimeout(() => {
+                            inputBusqueda.classList.remove("is-invalid");
+                            inputBusqueda.placeholder = "Buscar libros...";
+                        }, 2500);
+                        return;
+                    }
+
+                    // Redirigir al libro más relevante (primero de la lista)
+                    window.location.href = `/Vistas/Libro.html?id=${libros[0].id}`;
+
+                } catch (err) {
+                    console.error("Error en búsqueda:", err);
+                }
+            });
+        }
+
     } catch (e) {
         console.error("Error comprobando sesión:", e);
         window.location.href = "/Vistas/login.html";
