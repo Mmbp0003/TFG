@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             renderCarpetas(resto);
+            attachCarpetaEvents();
+
         })
         .catch(err => {
             console.error(err);
@@ -338,18 +340,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     .join("");
 
                 card.innerHTML = `
-                <div class="lista-header">
-                    <span class="lista-title">${carpeta.nombre}</span>
-                    <button class="btn-ver-lista" data-id="${carpeta.id}">Ver lista</button>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    ${miniaturas || "<p class='text-muted small'>Sin libros</p>"}
-                </div>
-            `;
+                    <div class="lista-header">
+                        <span class="lista-title">${carpeta.nombre}</span>
+                        <div class="d-flex gap-2">
+                            ${!carpeta.fijas ? `
+                            <button class="btn-borrar-lista" data-id="${carpeta.id}" title="Eliminar lista">
+                                <i class="bi bi-trash"></i>
+                            </button>` : ''}
+                            <button class="btn-ver-lista" data-id="${carpeta.id}">Ver lista</button>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        ${miniaturas || "<p class='text-muted small'>Sin libros</p>"}
+                    </div>
+                `;
                 container.appendChild(card);
             });
 
-            attachCarpetaEvents(carpetas);
+
         }
 
         const btnWrapper = document.createElement("div");
@@ -476,12 +484,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function attachCarpetaEvents(carpetas) {
-        document.querySelectorAll(".btn-ver-lista").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const id = parseInt(btn.dataset.id);
-                const carpeta = carpetas.find(c => c.id === id);
-                renderLibrosDeCarpeta(carpeta);
-            });
+        // Un solo listener delegado en el contenedor padre
+        container.addEventListener("click", function handler(e) {
+
+            // — Ver lista —
+            const btnVer = e.target.closest(".btn-ver-lista");
+            if (btnVer) {
+                const id = parseInt(btnVer.dataset.id);
+                const carpeta = todasLasCarpetas.find(c => c.id === id);
+                if (carpeta) renderLibrosDeCarpeta(carpeta);
+                return;
+            }
+
+            // — Borrar lista —
+            const btnBorrar = e.target.closest(".btn-borrar-lista");
+            if (btnBorrar) {
+                const id = parseInt(btnBorrar.dataset.id);
+                const carpeta = todasLasCarpetas.find(c => c.id === id);
+                if (!carpeta) return;
+
+                if (!confirm(`¿Eliminar la lista "${carpeta.nombre}" y todos sus libros?`)) return;
+
+                fetch(`/api/carpetas/${id}`, {
+                    method: "DELETE",
+                    credentials: "include"
+                }).then(res => {
+                    if (res.ok) {
+                        todasLasCarpetas = todasLasCarpetas.filter(c => c.id !== id);
+                        const resto = todasLasCarpetas.filter(c => c.tipo !== "LEYENDO");
+                        renderCarpetas(resto);
+                    } else {
+                        return res.text().then(msg => alert("Error: " + msg));
+                    }
+                }).catch(() => alert("Error de conexión."));
+                return;
+            }
         });
     }
 
@@ -491,6 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const nombre = input.value.trim();
 
         if (!nombre) {
+            error.textContent = "El nombre no puede estar vacío.";
             error.style.display = "block";
             return;
         }
@@ -503,23 +541,27 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({ nombre })
         })
             .then(res => {
+                if (res.status === 409) {
+                    return res.text().then(msg => {
+                        error.textContent = msg; // "Ya tienes una lista con ese nombre"
+                        error.style.display = "block";
+                        return null; // señal para no continuar
+                    });
+                }
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
             })
             .then(nuevaCarpeta => {
+                if (!nuevaCarpeta) return; // fue un 409, ya mostrado
                 bootstrap.Modal.getInstance(
                     document.getElementById("modalCrearCarpeta")
                 ).hide();
-
-                // Añadimos al array local y re-renderizamos sin recargar
                 nuevaCarpeta.libros = nuevaCarpeta.libros || [];
                 todasLasCarpetas.push(nuevaCarpeta);
                 const resto = todasLasCarpetas.filter(c => c.tipo !== "LEYENDO");
                 renderCarpetas(resto);
             })
-            .catch(err => {
-                alert("Error al crear la lista: " + err.message);
-            });
+            .catch(err => alert("Error al crear la lista: " + err.message));
     });
 
 });

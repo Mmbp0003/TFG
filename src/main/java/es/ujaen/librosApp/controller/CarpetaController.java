@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/carpetas")
@@ -29,13 +30,39 @@ public class CarpetaController {
     }
 
     @PostMapping
-    public Carpeta crear(@RequestBody Carpeta carpeta) {
-        return carpetaService.crear(carpeta);
+    public ResponseEntity<?> crear(@RequestBody Map<String, String> body, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return ResponseEntity.status(401).body("No autenticado");
+        }
+
+        String nombre = body.get("nombre");
+        if (nombre == null || nombre.isBlank()) {
+            return ResponseEntity.badRequest().body("El nombre no puede estar vacío");
+        }
+
+        try {
+            DTOCarpeta nueva = carpetaService.crear(nombre.trim(), usuario);
+            return ResponseEntity.ok(nueva);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void borrar(@PathVariable int id) {
-        carpetaService.eliminar(id);
+    public ResponseEntity<?> borrar(@PathVariable int id, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return ResponseEntity.status(401).body("No autenticado");
+        }
+        try {
+            carpetaService.eliminarSiEsPropietario(id, usuario.getId());
+            return ResponseEntity.ok().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Carpeta no encontrada");
+        }
     }
 
     @PostMapping("/{carpetaId}/libros/{libroId}")

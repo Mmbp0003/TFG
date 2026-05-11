@@ -243,3 +243,20 @@ body {
 .carpeta-action {
     overflow: visible;
 }
+
+.btn-borrar-lista {
+    background: none;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.btn-borrar-lista:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
