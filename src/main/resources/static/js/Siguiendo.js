@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     return `añadió <strong>${libro.trim()}</strong> a la carpeta <strong>${carpeta.trim()}</strong>`;
                 }
                 return `añadió <strong>${act.textoReferencia}</strong> a una carpeta`;
-            default: return act.textoReferencia;
         }
     }
 });

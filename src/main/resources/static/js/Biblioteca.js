@@ -326,20 +326,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (carpetas.length === 0) {
             container.innerHTML = "<p class='text-muted'>No tienes listas creadas.</p>";
-            return;
-        }
+        } else {
+            carpetas.forEach(carpeta => {
+                const card = document.createElement("div");
+                card.className = "lista-card";
 
-        carpetas.forEach(carpeta => {
-            const card = document.createElement("div");
-            card.className = "lista-card";
-
-            const miniaturas = carpeta.libros
-                .slice(0, 3)
-                .map(l => `<img src="/img/${l.portada || 'portada_default.jpg'}"
+                const miniaturas = carpeta.libros
+                    .slice(0, 3)
+                    .map(l => `<img src="/img/${l.portada || 'portada_default.jpg'}"
                                 style="width:50px;height:75px;border-radius:6px;object-fit:cover;">`)
-                .join("");
+                    .join("");
 
-            card.innerHTML = `
+                card.innerHTML = `
                 <div class="lista-header">
                     <span class="lista-title">${carpeta.nombre}</span>
                     <button class="btn-ver-lista" data-id="${carpeta.id}">Ver lista</button>
@@ -348,10 +346,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${miniaturas || "<p class='text-muted small'>Sin libros</p>"}
                 </div>
             `;
-            container.appendChild(card);
-        });
+                container.appendChild(card);
+            });
 
-        attachCarpetaEvents(carpetas);
+            attachCarpetaEvents(carpetas);
+        }
+
+        const btnWrapper = document.createElement("div");
+        btnWrapper.className = "d-flex justify-content-end mt-4";
+        btnWrapper.innerHTML = `
+        <button class="btn btn-outline-dark btn-sm" id="btnAbrirModalCarpeta">
+            <i class="bi bi-folder-plus me-1"></i>Nueva lista
+        </button>
+        `;
+        container.appendChild(btnWrapper);
+
+        document.getElementById("btnAbrirModalCarpeta").addEventListener("click", () => {
+            document.getElementById("inputNombreCarpeta").value = "";
+            document.getElementById("errorNombreCarpeta").style.display = "none";
+            new bootstrap.Modal(document.getElementById("modalCrearCarpeta")).show();
+        });
     }
 
     function renderLibrosDeCarpeta(carpeta) {
@@ -470,4 +484,42 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    document.getElementById("btnConfirmarCarpeta").addEventListener("click", () => {
+        const input = document.getElementById("inputNombreCarpeta");
+        const error = document.getElementById("errorNombreCarpeta");
+        const nombre = input.value.trim();
+
+        if (!nombre) {
+            error.style.display = "block";
+            return;
+        }
+        error.style.display = "none";
+
+        fetch("/api/carpetas", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre })
+        })
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then(nuevaCarpeta => {
+                bootstrap.Modal.getInstance(
+                    document.getElementById("modalCrearCarpeta")
+                ).hide();
+
+                // Añadimos al array local y re-renderizamos sin recargar
+                nuevaCarpeta.libros = nuevaCarpeta.libros || [];
+                todasLasCarpetas.push(nuevaCarpeta);
+                const resto = todasLasCarpetas.filter(c => c.tipo !== "LEYENDO");
+                renderCarpetas(resto);
+            })
+            .catch(err => {
+                alert("Error al crear la lista: " + err.message);
+            });
+    });
+
 });

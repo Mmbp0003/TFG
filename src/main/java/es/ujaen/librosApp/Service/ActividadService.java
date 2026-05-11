@@ -52,7 +52,7 @@ public class ActividadService {
 
     public void registrarCarpeta(Usuario usuario, String tituloLibro, String nombreCarpeta) {
         // Combinamos ambos textos con un separador "|"
-        String infoCombinada = tituloLibro + "|" + nombreCarpeta;
+        String infoCombinada = tituloLibro + "||" + nombreCarpeta;
 
         // El tercer parámetro (referenciaId) lo ponemos a null o 0
         // porque ahora la información va en el String.
