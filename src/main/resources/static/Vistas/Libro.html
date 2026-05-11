@@ -37,11 +37,23 @@
                     </p>
                 </div>
 
-                <div class="book-rating-box">
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <span>4.5</span>
-                    <small>(128 reseñas)</small>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="book-rating-box">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span>4.5</span>
+                        <small>(128 reseñas)</small>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button"
+                                id="btnGuardarLibro" data-bs-toggle="dropdown">
+                            <i class="bi bi-bookmark-plus"></i> Guardar
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" id="dropdownCarpetasLibro">
+                            <li><span class="dropdown-item text-muted">Cargando...</span></li>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
         </div>
 

@@ -4,6 +4,7 @@ import es.ujaen.librosApp.DTO.DTOLibro;
 import es.ujaen.librosApp.model.Libro;
 import es.ujaen.librosApp.Service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,4 +73,10 @@ public class LibroController {
             @RequestParam(required = false) String orden) {
         return libroService.obtenerConFiltros(generos, tags, ratingMin, paginasMin, paginasMax, orden);
     }
+
+    @GetMapping("/generos")
+    public ResponseEntity<List<String>> obtenerGeneros() {
+        return ResponseEntity.ok(libroService.obtenerTodosLosGeneros());
+    }
+
 }

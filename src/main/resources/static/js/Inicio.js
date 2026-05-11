@@ -36,6 +36,42 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+    function cargarCarpetasEnDropdown(menu, libroId) {
+        fetch("/api/carpetas/mias", { credentials: "include" })
+            .then(res => res.json())
+            .then(carpetas => {
+                if (!carpetas || carpetas.length === 0) {
+                    menu.innerHTML = `<li><span class="dropdown-item text-muted">No tienes carpetas</span></li>`;
+                    return;
+                }
+                menu.innerHTML = carpetas.map(c => `
+                <li>
+                    <button class="dropdown-item" onclick="guardarEnCarpeta(${c.id}, ${libroId}, this)">
+                        <i class="bi bi-folder me-2"></i>${c.nombre}
+                    </button>
+                </li>
+            `).join("");
+            })
+            .catch(() => {
+                menu.innerHTML = `<li><span class="dropdown-item text-danger">Error al cargar carpetas</span></li>`;
+            });
+    }
+
+    window.guardarEnCarpeta = function(carpetaId, libroId, btn) {
+        fetch(`/api/carpetas/${carpetaId}/libros/${libroId}`, {
+            method: "POST",
+            credentials: "include"
+        })
+            .then(res => {
+                if (!res.ok) throw new Error();
+                btn.innerHTML = `<i class="bi bi-check2 me-2"></i>${btn.textContent.trim()} ✓`;
+                btn.disabled = true;
+            })
+            .catch(() => {
+                btn.textContent = "Error al guardar";
+            });
+    };
+
     function pintarLibros(libros) {
         const container = document.getElementById("libros-container");
         container.innerHTML = "";
@@ -64,12 +100,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="book-footer">
                         <span class="book-rating">${estrellas}</span>
                         <div class="book-actions">
-                            <a class="btn btn-view" href="/Vistas/Libro.html?id=${libro.id}">Ver</a>
+                             <a class="btn btn-view" href="/Vistas/Libro.html?id=${libro.id}">Ver</a>
+                             <div class="dropdown d-inline-block">
+                                <button class="btn btn-save dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bookmark-plus"></i> Guardar
+                                </button>
+                            <ul class="dropdown-menu dropdown-carpetas" data-libro-id="${libro.id}">
+                                <li><span class="dropdown-item text-muted">Cargando...</span></li>
+                            </ul>
                         </div>
+                    </div>
+                    </div>
                     </div>
                 </div>
             `;
             container.appendChild(card);
+        });
+        document.querySelectorAll(".dropdown-carpetas").forEach(menu => {
+            menu.closest(".dropdown").addEventListener("show.bs.dropdown", () => {
+                cargarCarpetasEnDropdown(menu, menu.dataset.libroId);
+            });
         });
     }
 

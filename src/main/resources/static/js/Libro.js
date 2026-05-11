@@ -96,4 +96,41 @@ document.addEventListener("DOMContentLoaded", () => {
             container.appendChild(div);
         });
     }
+
+    // Cargar carpetas al abrir el dropdown de guardar
+    const dropdownBtn = document.getElementById("btnGuardarLibro");
+    const dropdownMenu = document.getElementById("dropdownCarpetasLibro");
+
+    if (dropdownBtn) {
+        dropdownBtn.addEventListener("show.bs.dropdown", () => {
+            fetch("/api/carpetas/mias", { credentials: "include" })
+                .then(res => res.json())
+                .then(carpetas => {
+                    if (!carpetas || carpetas.length === 0) {
+                        dropdownMenu.innerHTML = `<li><span class="dropdown-item text-muted">No tienes carpetas</span></li>`;
+                        return;
+                    }
+                    dropdownMenu.innerHTML = carpetas.map(c => `
+                    <li>
+                        <button class="dropdown-item" onclick="guardarLibroEnCarpeta(${c.id}, this)">
+                            <i class="bi bi-folder me-2"></i>${c.nombre}
+                        </button>
+                    </li>
+                `).join("");
+                });
+        });
+    }
+
+    window.guardarLibroEnCarpeta = function(carpetaId, btn) {
+        fetch(`/api/carpetas/${carpetaId}/libros/${libroId}`, {
+            method: "POST",
+            credentials: "include"
+        })
+            .then(res => {
+                if (!res.ok) throw new Error();
+                btn.innerHTML = `<i class="bi bi-check2 me-2"></i>${btn.textContent.trim()} ✓`;
+                btn.disabled = true;
+            })
+            .catch(() => btn.textContent = "Error al guardar");
+    };
 });

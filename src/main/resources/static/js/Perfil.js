@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnSeguir = document.getElementById('btn-seguir');
     const btnDejarSeguir = document.getElementById('btn-dejar-seguir');
-    const btnEditar = document.getElementById('btn-editar');
+
 
     // =========================
     // REDIRECCIÓN SI NO HAY ID
@@ -215,14 +215,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function configurarBotones(usuarioPerfil, usuarioLogueado) {
         btnSeguir.style.display = 'none';
         btnDejarSeguir.style.display = 'none';
-        btnEditar.style.display = 'none';
+
 
         if (!usuarioLogueado) return;
 
         const esMiPerfil = usuarioLogueado.id === usuarioPerfil.id;
 
         if (esMiPerfil) {
-            btnEditar.style.display = 'inline-block';
             return;
         }
 

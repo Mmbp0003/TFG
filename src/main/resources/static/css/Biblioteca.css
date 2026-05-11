@@ -235,3 +235,11 @@ body {
     /* Efecto hover opcional si quieres que reaccionen */
     opacity: 0.8;
 }
+
+.carpeta-book {
+    overflow: visible;
+}
+
+.carpeta-action {
+    overflow: visible;
+}

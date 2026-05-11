@@ -1,8 +1,10 @@
 package es.ujaen.librosApp.Service;
 
 import es.ujaen.librosApp.DTO.DTOLibro;
+import es.ujaen.librosApp.model.Genero;
 import es.ujaen.librosApp.model.Libro;
 import es.ujaen.librosApp.model.Resena;
+import es.ujaen.librosApp.repository.GeneroRepository;
 import es.ujaen.librosApp.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class LibroService {
 
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private GeneroRepository generoRepository;
 
 
     public List<Libro> obtenerTodos() {
@@ -47,6 +52,13 @@ public class LibroService {
 
     public List<Libro> buscarPorGenero(String genero) {
         return libroRepository.findByGenerosNombreIgnoreCase(genero);
+    }
+
+    public List<String> obtenerTodosLosGeneros() {
+        return generoRepository.findAll().stream()
+                .map(Genero::getNombre)
+                .sorted()
+                .toList();
     }
 
 
