@@ -63,20 +63,7 @@ public class LibroService {
 
 
     public double calcularNotaMedia(int libroId) {
-        Libro libro = obtenerPorId(libroId);
-        List<Resena> resenas = libro.getResenasLibro();
-
-
-        if (resenas == null || resenas.isEmpty()) {
-            return 0.0;
-        }
-
-        double suma = 0;
-        for (Resena r : resenas) {
-            suma += r.getPuntuacion(); // Asegúrate de tener getPuntuacion() en Resena
-        }
-
-        return Math.round((suma / resenas.size()) * 100.0) / 100.0;
+        return obtenerPorId(libroId).getMediaValoracion();
     }
 
     private String normalizar(String s) {
@@ -100,13 +87,7 @@ public class LibroService {
                         libro.getTags().stream()
                                 .anyMatch(t -> tags.contains(normalizar(t.getNombre()))))
                 // Convertir a DTO con media
-                .map(libro -> {
-                    double media = libro.getResenasLibro().isEmpty() ? 0.0 :
-                            Math.round(libro.getResenasLibro().stream()
-                                    .mapToDouble(r -> r.getPuntuacion())
-                                    .average().orElse(0.0) * 10.0) / 10.0;
-                    return new DTOLibro(libro, media);
-                })
+                .map(libro -> new DTOLibro(libro, libro.getMediaValoracion()))
                 // Filtro por rating mínimo
                 .filter(dto -> ratingMin == null || dto.getMediaResenas() >= ratingMin)
                 // Filtro por páginas

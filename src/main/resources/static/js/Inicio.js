@@ -63,6 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
             credentials: "include"
         })
             .then(res => {
+                if (res.status === 409) {
+                    return res.text().then(msg => alert(msg));
+                }
                 if (!res.ok) throw new Error();
                 btn.innerHTML = `<i class="bi bi-check2 me-2"></i>${btn.textContent.trim()} ✓`;
                 btn.disabled = true;

@@ -39,6 +39,9 @@ public class Libro {
     @NotNull
     LocalDate fechaPublicacion;
 
+    @Column(nullable = false)
+    private double mediaValoracion = 0.0;
+
     //-------------------------------------RELACIONES-------------------------------------------------
 
     @JsonIgnore
@@ -125,5 +128,8 @@ public class Libro {
 
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
+
+    public double getMediaValoracion() { return mediaValoracion; }
+    public void setMediaValoracion(double mediaValoracion) { this.mediaValoracion = mediaValoracion; }
 
 }

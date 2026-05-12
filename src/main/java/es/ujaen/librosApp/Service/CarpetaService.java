@@ -4,10 +4,13 @@ import es.ujaen.librosApp.DTO.DTOCarpeta;
 import es.ujaen.librosApp.model.Carpeta;
 import es.ujaen.librosApp.model.Libro;
 import es.ujaen.librosApp.model.Usuario;
+
 import es.ujaen.librosApp.repository.CarpetaRepository;
 import es.ujaen.librosApp.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 import java.util.List;
 
 @Service
@@ -68,11 +71,28 @@ public class CarpetaService {
         Carpeta carpeta = carpetaRepository.findById(carpetaId).orElseThrow();
         Libro libro = libroRepository.findById(libroId).orElseThrow();
 
+        // Comprobar si ya está en esta carpeta
+        boolean yaEsta = carpeta.getLibros().stream()
+                .anyMatch(l -> l.getId() == libroId);
+        if (yaEsta) {
+            throw new IllegalArgumentException("El libro ya está en esta carpeta");
+        }
+
+        // Si se intenta añadir a Leyendo, comprobar que no esté en Leídos
+        if ("LEYENDO".equals(carpeta.getTipo())) {
+            boolean yaLeido = carpetaRepository.findByUsuarioId(carpeta.getUsuario().getId())
+                    .stream()
+                    .filter(c -> "LEIDOS".equals(c.getTipo()))
+                    .flatMap(c -> c.getLibros().stream())
+                    .anyMatch(l -> l.getId() == libroId);
+            if (yaLeido) {
+                throw new IllegalArgumentException("Este libro ya está en tu lista de leídos");
+            }
+        }
+
         carpeta.getLibros().add(libro);
         Carpeta guardada = carpetaRepository.save(carpeta);
-
         actividadService.registrarCarpeta(carpeta.getUsuario(), libro.getTitulo(), carpeta.getNombre());
-
         return guardada;
     }
 

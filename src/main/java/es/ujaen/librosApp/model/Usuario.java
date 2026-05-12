@@ -133,4 +133,5 @@ public class Usuario {
 
     public void setActividades(List<Actividad> actividades) { this.actividades = actividades; }
     public List<Actividad> getActividades() { return actividades; }
+
 }

@@ -69,6 +69,11 @@ public class ActividadController {
         if (usuario == null) return ResponseEntity.status(401).body("No autenticado");
 
         actividadService.registrarProgreso(usuario, request.libroId(), request.titulo(), request.progreso());
+
+        if (request.progreso() >= 100) {
+            actividadService.registrarLibroAcabado(usuario, request.libroId(), request.titulo());
+        }
+
         return ResponseEntity.ok().build();
     }
 

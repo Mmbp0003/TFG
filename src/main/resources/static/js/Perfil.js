@@ -49,9 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("nombre-usuario").textContent =
                     usuario.nombre + " " + usuario.apellidos;
 
-                document.getElementById("total-leidos").textContent =
-                    usuario.librosGuardados?.length || 0;
+                document.getElementById("total-leidos").textContent = usuario.totalLeidos || 0;
                 document.getElementById("leidos-ano").textContent = usuario.leidosEsteAno || 0;
+                if (document.getElementById("valoraciones-ano")) {
+                    document.getElementById("valoraciones-ano").textContent = usuario.valoracionesAnio || 0;
+                }
                 document.getElementById("media").textContent = usuario.mediaResenas
                     ? usuario.mediaResenas + "★"
                     : "—";

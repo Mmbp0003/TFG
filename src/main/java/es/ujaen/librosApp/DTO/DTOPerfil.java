@@ -10,6 +10,8 @@ public class DTOPerfil {
 
     private int leidosEsteAno;
     private double mediaResenas;
+    private int valoracionesAnio;
+    private int totalLeidos;
 
     private List<LibroPerfil> librosGuardados;
 
@@ -74,9 +76,20 @@ public class DTOPerfil {
     }
 
     public int getLeidosEsteAno() { return leidosEsteAno; }
+
     public void setLeidosEsteAno(int leidosEsteAno) { this.leidosEsteAno = leidosEsteAno; }
+
     public double getMediaResenas() { return mediaResenas; }
+
     public void setMediaResenas(double mediaResenas) { this.mediaResenas = mediaResenas; }
+
+    public int getValoracionesAnio() { return valoracionesAnio; }
+
+    public void setValoracionesAnio(int valoracionesAnio) { this.valoracionesAnio = valoracionesAnio; }
+
+    public int getTotalLeidos() { return totalLeidos; }
+
+    public void setTotalLeidos(int totalLeidos) { this.totalLeidos = totalLeidos; }
 
     // =====================================================
     // CLASES INTERNAS

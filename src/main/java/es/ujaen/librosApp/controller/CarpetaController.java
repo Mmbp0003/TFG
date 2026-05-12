@@ -70,6 +70,8 @@ public class CarpetaController {
         try {
             carpetaService.anadirLibro(carpetaId, libroId);
             return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al añadir libro: " + e.getMessage());
         }

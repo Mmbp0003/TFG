@@ -3,8 +3,10 @@ package es.ujaen.librosApp.Service;
 import es.ujaen.librosApp.DTO.DTOPerfil;
 import es.ujaen.librosApp.model.Actividad;
 import es.ujaen.librosApp.model.Carpeta;
+import es.ujaen.librosApp.model.Resena;
 import es.ujaen.librosApp.model.Usuario;
 import es.ujaen.librosApp.repository.CarpetaRepository;
+import es.ujaen.librosApp.repository.ResenaRepository;
 import es.ujaen.librosApp.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class UsuarioService {
 
     @Autowired
     private CarpetaRepository carpetaRepository;
+
+    @Autowired
+    private ResenaRepository resenaRepository;
 
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
@@ -90,7 +95,7 @@ public class UsuarioService {
     }
 
     public DTOPerfil obtenerPerfilDTO(int id) {
-        Usuario usuario = obtenerPorId(id); // Reutilizamos tu método existente
+        Usuario usuario = obtenerPorId(id);
 
         DTOPerfil dto = new DTOPerfil();
         dto.setId(usuario.getId());
@@ -106,7 +111,7 @@ public class UsuarioService {
             return lp;
         }).toList());
 
-        // 2. Mapear Seguidores (Obtenemos al 'seguidor' de cada relación)
+        // 2. Mapear Seguidores
         dto.setSeguidores(usuario.getSeguidores().stream().map(r -> {
             DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
             up.setId(r.seguidor().getId());
@@ -115,7 +120,7 @@ public class UsuarioService {
             return up;
         }).toList());
 
-        // 3. Mapear Siguiendo (Obtenemos al 'seguido' de cada relación)
+        // 3. Mapear Siguiendo
         dto.setSiguiendo(usuario.getSiguiendo().stream().map(r -> {
             DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
             up.setId(r.getSeguidos().getId());
@@ -129,7 +134,6 @@ public class UsuarioService {
             DTOPerfil.CarpetaPerfil cp = new DTOPerfil.CarpetaPerfil();
             cp.setId(c.getId());
             cp.setNombre(c.getNombre());
-            // Mapear libros dentro de la carpeta
             cp.setLibros(c.getLibros().stream().map(l -> {
                 DTOPerfil.LibroPerfil lp = new DTOPerfil.LibroPerfil();
                 lp.setId(l.getId());
@@ -139,25 +143,42 @@ public class UsuarioService {
             return cp;
         }).toList());
 
-        List<Actividad> actividades = usuario.getActividades();
+        // 5. Estadísticas
         int anoActual = LocalDateTime.now().getYear();
 
-        // Leídos este año
-        long leidosAno = actividades.stream()
+        // Total leídos y leídos este año desde la carpeta Leídos
+        int totalLeidos = 0;
+        long leidosAno = 0;
+
+        for (Carpeta c : usuario.getCarpetas()) {
+            if ("LEIDOS".equals(c.getTipo())) {
+                totalLeidos = c.getLibros().size();
+                break;
+            }
+        }
+
+        leidosAno = usuario.getActividades().stream()
                 .filter(a -> a.getTipo() == Actividad.TipoActividad.LIBRO_ACABADO)
                 .filter(a -> a.getFecha().getYear() == anoActual)
                 .count();
+
+        dto.setTotalLeidos(totalLeidos);
         dto.setLeidosEsteAno((int) leidosAno);
 
-        // Media de reseñas
-        OptionalDouble media = actividades.stream()
-                .filter(a -> a.getTipo() == Actividad.TipoActividad.RESENA)
-                .filter(a -> a.getValor() != null)
-                .mapToDouble(Actividad::getValor)
+        // Media y valoraciones desde reseñas reales de este año
+        List<Resena> resenasAnio = resenaRepository.findByUsuarioId(usuario.getId())
+                .stream()
+                .filter(r -> r.getFechaCreacion().getYear() == anoActual)
+                .toList();
+
+        OptionalDouble media = resenasAnio.stream()
+                .mapToDouble(Resena::getPuntuacion)
                 .average();
         dto.setMediaResenas(media.isPresent()
-                ? Math.round(media.getAsDouble() * 10.0) / 10.0  // redondeo a 1 decimal
+                ? Math.round(media.getAsDouble() * 10.0) / 10.0
                 : 0.0);
+
+        dto.setValoracionesAnio(resenasAnio.size());
 
         return dto;
     }
