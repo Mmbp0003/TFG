@@ -32,6 +32,10 @@ public class UsuarioService {
     @Autowired
     private ResenaRepository resenaRepository;
 
+    // ─────────────────────────────────────────────
+    // CONSULTAS
+    // ─────────────────────────────────────────────
+
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
     }
@@ -45,9 +49,12 @@ public class UsuarioService {
         return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
+    // ─────────────────────────────────────────────
+    // REGISTRO
+    // ─────────────────────────────────────────────
+
     public Usuario registrar(Usuario usuario) {
         Optional<Usuario> existente = usuarioRepository.findByEmail(usuario.getEmail());
-
         if (existente.isPresent()) {
             throw new RuntimeException("Ese correo electrónico ya está registrado");
         }
@@ -77,22 +84,46 @@ public class UsuarioService {
         return guardado;
     }
 
-    public Usuario login(String email, String clave){
-        Usuario usu = usuarioRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("El correo introducido no es correcto"));
-        System.out.println("el usuario es" + usu.getEmail() + " y si contraseña es " + usu.getClave() );
+    // ─────────────────────────────────────────────
+    // CAMBIO DE ROL  ← nuevo
+    // ─────────────────────────────────────────────
 
-        if (!passwordEncoder.matches(clave, usu.getClave())){
-            throw new RuntimeException("La contraseá introducida no es correcta");
-        }
-
-        return usu;
-
+    /**
+     * Cambia el rol de un usuario. Valores válidos: "USER", "ADMIN".
+     * La validación del valor concreto se hace en el controller;
+     * aquí solo buscamos y guardamos.
+     */
+    public void cambiarRol(int id, String nuevoRol) {
+        Usuario usuario = obtenerPorId(id); // lanza RuntimeException si no existe
+        usuario.setRol(nuevoRol);
+        usuarioRepository.save(usuario);
     }
 
+    // ─────────────────────────────────────────────
+    // LOGIN
+    // ─────────────────────────────────────────────
+
+    public Usuario login(String email, String clave) {
+        Usuario usu = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("El correo introducido no es correcto"));
+
+        if (!passwordEncoder.matches(clave, usu.getClave())) {
+            throw new RuntimeException("La contraseña introducida no es correcta");
+        }
+        return usu;
+    }
+
+    // ─────────────────────────────────────────────
+    // BORRAR CUENTA
+    // ─────────────────────────────────────────────
 
     public void borrarCuenta(int id) {
         usuarioRepository.deleteById(id);
     }
+
+    // ─────────────────────────────────────────────
+    // PERFIL DTO
+    // ─────────────────────────────────────────────
 
     public DTOPerfil obtenerPerfilDTO(int id) {
         Usuario usuario = obtenerPorId(id);
@@ -102,7 +133,7 @@ public class UsuarioService {
         dto.setNombre(usuario.getNombre());
         dto.setApellidos(usuario.getApellidos());
 
-        // 1. Mapear Libros Guardados
+        // Libros guardados
         dto.setLibrosGuardados(usuario.getLibrosGuardados().stream().map(l -> {
             DTOPerfil.LibroPerfil lp = new DTOPerfil.LibroPerfil();
             lp.setId(l.getId());
@@ -111,7 +142,7 @@ public class UsuarioService {
             return lp;
         }).toList());
 
-        // 2. Mapear Seguidores
+        // Seguidores
         dto.setSeguidores(usuario.getSeguidores().stream().map(r -> {
             DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
             up.setId(r.seguidor().getId());
@@ -120,7 +151,7 @@ public class UsuarioService {
             return up;
         }).toList());
 
-        // 3. Mapear Siguiendo
+        // Siguiendo
         dto.setSiguiendo(usuario.getSiguiendo().stream().map(r -> {
             DTOPerfil.UsuarioPerfil up = new DTOPerfil.UsuarioPerfil();
             up.setId(r.getSeguidos().getId());
@@ -129,7 +160,7 @@ public class UsuarioService {
             return up;
         }).toList());
 
-        // 4. Mapear Carpetas
+        // Carpetas
         dto.setCarpetas(usuario.getCarpetas().stream().map(c -> {
             DTOPerfil.CarpetaPerfil cp = new DTOPerfil.CarpetaPerfil();
             cp.setId(c.getId());
@@ -143,13 +174,10 @@ public class UsuarioService {
             return cp;
         }).toList());
 
-        // 5. Estadísticas
+        // Estadísticas
         int anoActual = LocalDateTime.now().getYear();
 
-        // Total leídos y leídos este año desde la carpeta Leídos
         int totalLeidos = 0;
-        long leidosAno = 0;
-
         for (Carpeta c : usuario.getCarpetas()) {
             if ("LEIDOS".equals(c.getTipo())) {
                 totalLeidos = c.getLibros().size();
@@ -157,7 +185,7 @@ public class UsuarioService {
             }
         }
 
-        leidosAno = usuario.getActividades().stream()
+        long leidosAno = usuario.getActividades().stream()
                 .filter(a -> a.getTipo() == Actividad.TipoActividad.LIBRO_ACABADO)
                 .filter(a -> a.getFecha().getYear() == anoActual)
                 .count();
@@ -165,7 +193,6 @@ public class UsuarioService {
         dto.setTotalLeidos(totalLeidos);
         dto.setLeidosEsteAno((int) leidosAno);
 
-        // Media y valoraciones desde reseñas reales de este año
         List<Resena> resenasAnio = resenaRepository.findByUsuarioId(usuario.getId())
                 .stream()
                 .filter(r -> r.getFechaCreacion().getYear() == anoActual)

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - BookSocial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/Gestor.css">
+</head>
+<body>
+
+<div id="layout"></div> <div id="page-content">
+    <div class="main-content">
+
+        <header class="admin-header mb-4">
+            <h2 class="text-black">Panel de administración</h2>
+        </header>
+
+        <div class="admin-nav-container mb-4">
+            <div class="btn-group w-100" role="group">
+                <button type="button" class="btn btn-gestor active" onclick="cargarVista('usuarios')">
+                    <i class="bi bi-people-fill"></i> Usuarios
+                </button>
+                <button type="button" class="btn btn-gestor" onclick="cargarVista('libros')">
+                    <i class="bi bi-book-fill"></i> Libros
+                </button>
+                <button type="button" class="btn btn-gestor" onclick="cargarVista('generos')">
+                    <i class="bi bi-tags-fill"></i> Géneros
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="search-wrapper">
+                    <input type="text" id="gestorSearch" class="form-control" placeholder="Buscar..." onkeyup="filterGestorTable()">
+                </div>
+
+                <div id="btnNuevoUsuarioWrapper">
+                    <button class="btn btn-danger btn-sm" onclick="abrirModalNuevoUsuario()">
+                        <i class="bi bi-person-plus-fill me-1"></i> Nuevo usuario
+                    </button>
+                </div>
+
+                <div id="btnNuevoGeneroWrapper" style="display:none">
+                    <button class="btn btn-danger btn-sm" onclick="abrirModalNuevoGenero()">
+                        <i class="bi bi-plus-circle me-1"></i> Nuevo género
+                    </button>
+                </div>
+
+                <div id="btnNuevoLibroWrapper" style="display:none">
+                    <button class="btn btn-danger btn-sm" onclick="abrirModalNuevoLibro()">
+                        <i class="bi bi-book me-1"></i> Nuevo libro
+                    </button>
+                </div>
+            </div>
+
+            <div id="gestorTableContainer" class="table-responsive">
+            </div>
+
+            <div class="admin-footer d-flex justify-content-between align-items-center mt-3">
+                <span id="paginationLabel" class="text-secondary">Cargando...</span>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/Layout.js"></script>
+<script src="/js/Gestor.js"></script>
+
+
+</body>
+</html>

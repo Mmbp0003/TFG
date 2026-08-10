@@ -50,13 +50,9 @@ public class ActividadService {
                 refId, texto, null);
     }
 
-    public void registrarCarpeta(Usuario usuario, String tituloLibro, String nombreCarpeta) {
-        // Combinamos ambos textos con un separador "|"
+    public void registrarCarpeta(Usuario usuario, int libroId, String tituloLibro, String nombreCarpeta) {
         String infoCombinada = tituloLibro + "||" + nombreCarpeta;
-
-        // El tercer parámetro (referenciaId) lo ponemos a null o 0
-        // porque ahora la información va en el String.
-        registrarAccion(usuario, TipoActividad.CARPETA, null, infoCombinada, null);
+        registrarAccion(usuario, TipoActividad.CARPETA, libroId, infoCombinada, null);
     }
 
     public Optional<Actividad> obtenerUltimoProgreso(int usuarioId, int libroId) {
@@ -71,5 +67,13 @@ public class ActividadService {
 
     public List<Actividad> obtenerFeed(List<Integer> usuariosIds) {
         return actividadRepository.findByUsuarioIdInOrderByFechaDesc(usuariosIds);
+    }
+
+    //------------------ELIMINACION-------------
+
+    public void eliminarResenaActividad(int usuarioId, int libroId) {
+        actividadRepository
+                .findByUsuarioIdAndReferenciaIdAndTipo(usuarioId, libroId, TipoActividad.RESENA)
+                .ifPresent(actividadRepository::delete);
     }
 }

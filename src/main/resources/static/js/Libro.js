@@ -55,22 +55,26 @@ document.addEventListener("DOMContentLoaded", () => {
     function pintarResenas(resenas) {
         const container = document.querySelector(".reviews-section");
 
+        // Actualizar rating box siempre, haya o no reseñas
         if (!resenas || resenas.length === 0) {
+            document.querySelector(".book-rating-box").innerHTML = `
+            <i class="bi bi-star-fill text-warning"></i>
+            <span>—</span>
+            <small>(Sin reseñas)</small>
+        `;
             container.innerHTML = `
-                <h4>Reseñas de la comunidad</h4>
-                <p class='text-muted'>Aún no hay reseñas para este libro.</p>
-            `;
+            <h4>Reseñas de la comunidad</h4>
+            <p class='text-muted'>Aún no hay reseñas para este libro.</p>
+        `;
             return;
         }
 
         const media = (resenas.reduce((sum, r) => sum + r.puntuacion, 0) / resenas.length).toFixed(1);
-
-        // Actualizar el rating box
         document.querySelector(".book-rating-box").innerHTML = `
-            <i class="bi bi-star-fill text-warning"></i>
-            <span>${media}</span>
-            <small>(${resenas.length} reseña${resenas.length !== 1 ? "s" : ""})</small>
-        `;
+        <i class="bi bi-star-fill text-warning"></i>
+        <span>${media}</span>
+        <small>(${resenas.length} reseña${resenas.length !== 1 ? "s" : ""})</small>
+    `;
 
         container.innerHTML = `<h4>Reseñas de la comunidad</h4>`;
 

@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ seguidoId: parseInt(perfilId) })  // forzar número
+            body: JSON.stringify({ seguidoId: parseInt(perfilId) })
         })
             .then(res => {
                 if (!res.ok) return res.text().then(t => { throw new Error(t); });

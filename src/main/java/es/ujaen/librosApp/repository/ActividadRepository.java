@@ -19,5 +19,8 @@ public interface ActividadRepository extends JpaRepository<Actividad, Integer> {
 
     Optional<Actividad> findTopByUsuarioIdAndReferenciaIdAndTipoOrderByFechaDesc( int usuarioId, int libroId, Actividad.TipoActividad tipo);
 
+    Optional<Actividad> findByUsuarioIdAndReferenciaIdAndTipo(int usuarioId, int referenciaId, Actividad.TipoActividad tipo);
+
+    void deleteByReferenciaId(Integer referenciaId);
 
 }

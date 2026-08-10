@@ -23,7 +23,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ⚠️ SOLO PARA DESARROLLO (elimínalo después)
+    //SOLO PARA DESARROLLO (elimínalo después)
     @Bean
     public CommandLineRunner encriptarUsuarios(
             UsuarioRepository usuarioRepository,
@@ -52,9 +52,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/usuarios/me").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/actividades/feed", "/api/libros", "/api/libros/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login",
-                                "/api/usuarios/registro",
-                                "/api/usuarios/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login", "/api/usuarios/registro", "/api/usuarios/logout",
+                                                          "/api/usuarios", "/api/generos", "/api/libros").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/libros/upload-portada").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/libros/*").permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -69,11 +70,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Origen exacto, sin wildcard
         config.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("*"));
-        config.setAllowCredentials(true); // ✅ Sin esto la sesión no funciona
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

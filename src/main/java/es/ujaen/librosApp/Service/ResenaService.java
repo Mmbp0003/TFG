@@ -52,9 +52,14 @@ public class ResenaService {
         Resena resena = resenaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
         int libroId = resena.getLibro().getId();
+
+        actividadService.eliminarResenaActividad(resena.getUsuario().getId(), libroId);
+
         resenaRepository.deleteById(id);
         recalcularMedia(libroId);
     }
+
+
 
     public Resena modificar(int id, Double nuevaPuntuacion, String nuevoContenido) {
         Resena resena = resenaRepository.findById(id)

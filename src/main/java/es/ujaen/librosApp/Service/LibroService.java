@@ -1,11 +1,11 @@
 package es.ujaen.librosApp.Service;
 
 import es.ujaen.librosApp.DTO.DTOLibro;
-import es.ujaen.librosApp.model.Genero;
-import es.ujaen.librosApp.model.Libro;
-import es.ujaen.librosApp.model.Resena;
+import es.ujaen.librosApp.model.*;
+import es.ujaen.librosApp.repository.ActividadRepository;
 import es.ujaen.librosApp.repository.GeneroRepository;
 import es.ujaen.librosApp.repository.LibroRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,8 @@ public class LibroService {
     @Autowired
     private GeneroRepository generoRepository;
 
+    @Autowired
+    private ActividadRepository actividadRepository;
 
     public List<Libro> obtenerTodos() {
         return libroRepository.findAll();
@@ -36,8 +38,35 @@ public class LibroService {
     }
 
     // Solo Admin
+    @Transactional
     public void borrar(int id) {
-        libroRepository.deleteById(id);
+        Libro libro = libroRepository.findById(id).orElseThrow(() -> new RuntimeException("Libro no encontrado"));
+
+        for (Carpeta carpeta : libro.getCarpetas()) {
+            carpeta.getLibros().remove(libro);
+        }
+        libro.getCarpetas().clear();
+
+        for (Usuario usuario : libro.getUsuarios()) {
+            usuario.getLibrosGuardados().remove(libro);
+        }
+        libro.getUsuarios().clear();
+
+        actividadRepository.deleteByReferenciaId(id);
+        libroRepository.delete(libro);
+    }
+
+    public Libro modificar(int id, Libro datos) {
+        Libro libro = obtenerPorId(id);
+        libro.setTitulo(datos.getTitulo());
+        libro.setAutor(datos.getAutor());
+        libro.setSinopis(datos.getSinopis());
+        libro.setPaginas(datos.getPaginas());
+        libro.setFechaPublicacion(datos.getFechaPublicacion());
+        if (datos.getPortada() != null && !datos.getPortada().isBlank()) {
+            libro.setPortada(datos.getPortada());
+        }
+        return libroRepository.save(libro);
     }
 
     // --- FILTROS ---
@@ -55,10 +84,7 @@ public class LibroService {
     }
 
     public List<String> obtenerTodosLosGeneros() {
-        return generoRepository.findAll().stream()
-                .map(Genero::getNombre)
-                .sorted()
-                .toList();
+        return generoRepository.findAll().stream().map(Genero::getNombre).sorted().toList();
     }
 
 
@@ -68,8 +94,7 @@ public class LibroService {
 
     private String normalizar(String s) {
         return java.text.Normalizer.normalize(s.toLowerCase().replace(" ", "_"),
-                        java.text.Normalizer.Form.NFD)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+                        java.text.Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 
     public List<DTOLibro> obtenerConFiltros(List<String> generos, List<String> tags,

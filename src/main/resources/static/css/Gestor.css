@@ -1,0 +1,75 @@
+:root {
+    --gestor-bg: #121212;
+    --gestor-card: #1e1e1e;
+    --gestor-accent: #E63946;
+    --gestor-border: #333333;
+    --gestor-text-muted: #7A7A7A;
+}
+
+body {
+    background-color: var(--gestor-bg);
+    color: white;
+}
+
+.main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 15px;
+}
+
+/* Botones Superiores */
+.btn-gestor {
+    background-color: var(--gestor-card);
+    border: 1px solid var(--gestor-border);
+    color: var(--gestor-text-muted);
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.btn-gestor:hover, .btn-gestor.active {
+    background-color: #2c2c2c;
+    color: white;
+    border-bottom: 3px solid var(--gestor-accent);
+}
+
+/* Tarjeta y Tabla */
+.gestor-card {
+    background: var(--gestor-card);
+    border: 1px solid var(--gestor-border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.table { color: white; border-color: var(--gestor-border); }
+.table thead th {
+    color: var(--gestor-text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--gestor-border);
+}
+
+/* Buscador */
+.search-wrapper .form-control {
+    background-color: white;
+    border: 1px solid #444 ;
+    color: black;
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gestor-text-muted);
+}
+
+/* Badges estilo mockup */
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.active-pill { background: #d4edda; color: #155724; }
+.inactive-pill { background: #f8d7da; color: #721c24; }
+.admin-pill { background: #fff3cd; color: #856404; }

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/api/usuarios/login", {
                 method: "POST",
-                credentials: "include", // 🔥 CLAVE PARA SESIÓN
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Usuario guardado en localStorage:", usuario);
             // ------------------------------
 
-            // Ahora sí, nos vamos a la otra página
             window.location.href = "Inicio.html";
 
         } catch (error) {

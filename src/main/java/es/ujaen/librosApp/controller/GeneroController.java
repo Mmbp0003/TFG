@@ -3,6 +3,7 @@ package es.ujaen.librosApp.controller;
 import es.ujaen.librosApp.model.Genero;
 import es.ujaen.librosApp.Service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public class GeneroController {
     @PostMapping
     public Genero crear(@RequestBody Genero genero) {
         return generoService.crear(genero);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable int id) {
+        generoService.borrar(id);
+        return ResponseEntity.ok().build();
     }
 }

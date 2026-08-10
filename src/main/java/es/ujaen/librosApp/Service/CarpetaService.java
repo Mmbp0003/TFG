@@ -92,7 +92,7 @@ public class CarpetaService {
 
         carpeta.getLibros().add(libro);
         Carpeta guardada = carpetaRepository.save(carpeta);
-        actividadService.registrarCarpeta(carpeta.getUsuario(), libro.getTitulo(), carpeta.getNombre());
+        actividadService.registrarCarpeta(carpeta.getUsuario(), libroId, libro.getTitulo(), carpeta.getNombre());
         return guardada;
     }
 

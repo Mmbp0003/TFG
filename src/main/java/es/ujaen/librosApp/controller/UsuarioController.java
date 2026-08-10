@@ -33,10 +33,12 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public List<Usuario> obtenerTodos() {
-        return usuarioService.obtenerTodos();
+    public ResponseEntity<List<DTOUsuario>> obtenerTodos() {
+        List<DTOUsuario> dtos = usuarioService.obtenerTodos().stream()
+                .map(DTOUsuario::new)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<DTOPerfil> obtenerPerfil(@PathVariable int id) {
@@ -63,6 +65,21 @@ public class UsuarioController {
         } catch (RuntimeException e) {
 
             return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> crearUsuarioPorAdmin(@Valid @RequestBody Usuario usuario,
+                                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String mensajeError = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(mensajeError);
+        }
+        try {
+            Usuario creado = usuarioService.registrar(usuario);
+            return ResponseEntity.status(201).body(new DTOUsuario(creado));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
         }
     }
 
