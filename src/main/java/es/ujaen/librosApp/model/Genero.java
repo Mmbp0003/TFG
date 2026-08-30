@@ -1,6 +1,7 @@
 package es.ujaen.librosApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ public class Genero {
 
     //----------------------------------------GETTERS Y SETTERS---------------------------------------------
 
+    @JsonProperty("id")
     public int getid() { return  id; }
+    public void setId(int id) { this.id = id; }
 
     public void setNombre(String nombre){this.nombre = nombre;}
     public String getNombre() { return  nombre;}

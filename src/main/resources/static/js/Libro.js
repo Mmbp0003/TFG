@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Cargar carpetas al abrir el dropdown de guardar
     const dropdownBtn = document.getElementById("btnGuardarLibro");
     const dropdownMenu = document.getElementById("dropdownCarpetasLibro");
 

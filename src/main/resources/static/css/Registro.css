@@ -11,9 +11,7 @@
     --structure-hover: #3B3B3B;
 }
 
-/* =========================
-   BASE
-   ========================= */
+/* BASE */
 html,
 body {
     height: 100%;
@@ -22,9 +20,7 @@ body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-/* =========================
-   CONTENEDOR REGISTRO
-   ========================= */
+/* CONTENEDOR REGISTRO */
 .form-signin {
     max-width: 420px;
     padding: 2.5rem;
@@ -34,17 +30,13 @@ body {
     border: 1px solid #ddd;
 }
 
-/* =========================
-   TITULO
-   ========================= */
+/* TITULO */
 .form-signin h1 {
     font-weight: 700;
     color: var(--structure);
 }
 
-/* =========================
-   INPUTS
-   ========================= */
+/* INPUTS */
 .form-floating > .form-control {
     border: 1px solid #d0d0d0;
     border-radius: 8px;
@@ -63,9 +55,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* =========================
-   BOTON REGISTRO
-   ========================= */
+/* BOTON REGISTRO */
 .btn-primary {
     background-color: var(--accent);
     border: none;
@@ -79,9 +69,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* =========================
-   LINK LOGIN
-   ========================= */
 .form-signin a {
     color: var(--accent);
     font-weight: 500;
@@ -92,9 +79,6 @@ body {
     text-decoration: underline;
 }
 
-/* =========================
-   TEXTO SECUNDARIO
-   ========================= */
 .text-muted {
     color: var(--text-secondary) !important;
 }

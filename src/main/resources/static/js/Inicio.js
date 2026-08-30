@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =========================
-       TOGGLE MENÚS
-       ========================= */
+    /* TOGGLE MENÚS */
     document.querySelectorAll(".filter-menu").forEach(menu => {
         const toggle = menu.querySelector(".toggle-filter-menu");
         const form = menu.querySelector(".filter-form");
@@ -16,9 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    /* =========================
-       CARGAR LIBROS
-       ========================= */
+    /* CARGAR LIBROS */
     cargarLibros("/api/libros");
 
     function cargarLibros(url) {
@@ -30,11 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(libros => pintarLibros(libros))
             .catch(err => {
                 console.error(err);
-                // Añade esto:
+
                 document.getElementById("libros-container").innerHTML =
                     `<p class='text-danger'>Error al cargar libros: ${err.message}</p>`;
             });
     }
+
+    fetch("/api/libros/generos", { credentials: "include" })
+        .then(res => res.json())
+        .then(generos => {
+            const contenedor = document.getElementById("generos-container");
+            if (!contenedor) return;
+            contenedor.innerHTML = generos.map(g => {
+                const valor = g.toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\s+/g, "_");
+                return `
+                <label class="label-filter-option-item">
+                    <input type="checkbox" value="${valor}"> ${g}
+                </label>`;
+            }).join("");
+        })
+        .catch(err => console.error("Error cargando géneros:", err));
 
     function cargarCarpetasEnDropdown(menu, libroId) {
         fetch("/api/carpetas/mias", { credentials: "include" })
@@ -127,21 +140,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =========================
-       FILTROS
-       ========================= */
+    /* FILTROS */
     window.getFilters = function () {
-        const tagValues = ["friendship","fluff","enemies_to_lovers","violence",
-            "family","drama","cozy","slow_burn","humor",
-            "hurt_comfort","happy_ending","supernatural"];
 
         const generos = [...document.querySelectorAll(".filter-menu-check-boxes input[type=checkbox]:checked")]
-            .map(cb => cb.value)
-            .filter(v => !tagValues.includes(v));
-
-        const tags = [...document.querySelectorAll(".filter-menu-check-boxes input[type=checkbox]:checked")]
-            .map(cb => cb.value)
-            .filter(v => tagValues.includes(v));
+            .map(cb => cb.value);
 
         const ratingMin  = document.getElementById("rating")?.value     || null;
         const paginasMin = document.getElementById("words_from")?.value || null;
@@ -150,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const params = new URLSearchParams();
         generos.forEach(g => params.append("generos", g));
-        tags.forEach(t => params.append("tags", t));
         if (ratingMin)  params.append("ratingMin",  ratingMin);
         if (paginasMin) params.append("paginasMin", paginasMin);
         if (paginasMax) params.append("paginasMax", paginasMax);

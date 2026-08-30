@@ -29,7 +29,6 @@ public class RelacionService {
         Usuario seguido = usuarioRepository.findById(idSeguido)
                 .orElseThrow(() -> new RuntimeException("Usuario a seguir no encontrado"));
 
-        // Comprobamos si ya existe la relación para no duplicar
         if (relacionRepository.findBySeguidorAndSeguido(seguidor, seguido).isPresent()) {
             throw new RuntimeException("Ya sigues a este usuario.");
         }

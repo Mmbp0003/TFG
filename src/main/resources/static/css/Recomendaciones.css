@@ -1,18 +1,13 @@
-/* =========================
-   CONTENEDOR DE RECOMENDACIONES
-   ========================= */
+/* CONTENEDOR DE RECOMENDACIONES */
 #recomendacionesContainer {
     display: grid;
-    /* Ajustado para que quepan entre 4 y 5 tarjetas en 900px */
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 15px;
     margin-top: 20px;
     width: 100%;
 }
 
-/* =========================
-   TARJETA MÁS GRANDE Y ESTILIZADA
-   ========================= */
+
 .recomendacion-card {
     background: var(--bg-card);
     border: 1px solid #d0d0d0;
@@ -21,7 +16,7 @@
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
-    height: 100%; /* Para que todas midan lo mismo */
+    height: 100%;
 }
 
 .recomendacion-card:hover {
@@ -30,10 +25,10 @@
     border-color: var(--accent);
 }
 
-/* IMAGEN MÁS GRANDE */
+
 .recomendacion-img {
     width: 100%;
-    aspect-ratio: 2 / 3; /* Mantiene la proporción de libro */
+    aspect-ratio: 2 / 3;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -53,7 +48,6 @@
     margin-bottom: 4px;
     line-height: 1.2;
     color: var(--structure);
-    /* Cortar texto si es muy largo */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -90,30 +84,26 @@
     background: var(--accent);
 }
 
-/* =========================
-   LAYOUT DE DOS COLUMNAS
-   ========================= */
+/* LAYOUT DE DOS COLUMNAS */
 .recomendaciones-layout {
     display: flex;
     gap: 25px;
-    align-items: flex-start; /* Para que el sidebar no se estire hacia abajo si hay muchos libros */
+    align-items: flex-start;
 }
 
 .recomendaciones-main {
-    flex: 1; /* Ocupa todo el espacio sobrante */
-    min-width: 0; /* Evita desbordamientos en flexbox */
+    flex: 1;
+    min-width: 0;
 }
 
 .recomendaciones-sidebar {
-    width: 280px; /* Ancho fijo para tus filtros */
-    flex-shrink: 0; /* Evita que se encoja */
-    position: sticky; /* Hace que los filtros te sigan al hacer scroll */
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
     top: 20px;
 }
 
-/* =========================
-   AJUSTES PARA TUS FILTROS
-   ========================= */
+/* AJUSTES PARA TUS FILTROS */
 .filter-menu {
     background: var(--bg-card);
     border-radius: 12px;
@@ -155,13 +145,4 @@
     color: var(--text-main);
 }
 
-/* RESPONSIVE: Si la pantalla es pequeña (Móvil/Tablet), ponemos los filtros arriba y los libros abajo */
-@media (max-width: 768px) {
-    .recomendaciones-layout {
-        flex-direction: column; /* Cambia a una sola columna */
-    }
-    .recomendaciones-sidebar {
-        width: 100%;
-        position: static; /* Quitamos el sticky en móvil */
-    }
-}
+

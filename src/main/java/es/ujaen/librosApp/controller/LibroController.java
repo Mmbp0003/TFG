@@ -36,8 +36,9 @@ public class LibroController {
 
 
     @GetMapping("/{id}")
-    public Libro obtenerPorId(@PathVariable int id) {
-        return libroService.obtenerPorId(id);
+    public DTOLibro obtenerPorId(@PathVariable int id) {
+        Libro libro = libroService.obtenerPorId(id);
+        return new DTOLibro(libro, libroService.calcularNotaMedia(id));
     }
 
     @PostMapping

@@ -60,7 +60,6 @@ function renderizarTabla(seccion, datos) {
     const totalRegistros = datos.length;
     const totalPaginas   = Math.ceil(totalRegistros / REGISTROS_PAG);
 
-    // Seguridad: si tras borrar la página actual queda fuera de rango
     if (paginaActual > totalPaginas && totalPaginas > 0) {
         paginaActual = totalPaginas;
     }
@@ -267,10 +266,7 @@ function actualizarPaginacion(totalRegistros, totalPaginas, seccion) {
     paginationUl.innerHTML = html;
 }
 
-/**
- * Genera un array con los números de página visibles + '...' donde corresponde.
- * Ej: [1, '...', 4, 5, 6, '...', 20]
- */
+
 function paginasVisibles(actual, total, maxBotones) {
     if (total <= maxBotones) {
         return Array.from({ length: total }, (_, i) => i + 1);
@@ -432,14 +428,7 @@ async function eliminarResena(resenaId, libroId, titulo) {
     }
 }
 
-// ─────────────────────────────────────────────
-// NUEVO USUARIO — Modal
-// ─────────────────────────────────────────────
 
-/**
- * Inyecta el modal en el DOM (si no existe ya) y lo abre.
- * Se llama desde el botón "Nuevo usuario" del HTML.
- */
 function abrirModalNuevoUsuario() {
     // Evitar duplicados
     if (!document.getElementById('modalNuevoUsuario')) {
@@ -535,7 +524,6 @@ async function guardarNuevoUsuario() {
     const errorDiv = document.getElementById('nuevoUsuarioError');
     errorDiv.classList.add('d-none');
 
-    // Recoger valores
     const nombre    = document.getElementById('nu_nombre').value.trim();
     const apellidos = document.getElementById('nu_apellidos').value.trim();
     const email     = document.getElementById('nu_email').value.trim();
@@ -543,7 +531,6 @@ async function guardarNuevoUsuario() {
     const rol       = document.getElementById('nu_rol').value;
     const clave     = document.getElementById('nu_clave').value;
 
-    // Validación básica en cliente
     if (!nombre || !apellidos || !email || !fecha || !clave) {
         mostrarErrorModal('Por favor, rellena todos los campos obligatorios.');
         return;
@@ -598,9 +585,9 @@ function togglePasswordVisibility(inputId, btn) {
     btn.querySelector('i').className = esPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
 }
 
-// ─────────────────────────────────────────────
+
 // CAMBIO DE ROL
-// ─────────────────────────────────────────────
+
 
 async function cambiarRolUsuario(id, rolActual, nombreCompleto) {
     const nuevoRol = rolActual === 'ADMIN' ? 'USER' : 'ADMIN';
@@ -852,9 +839,10 @@ async function abrirModalEditarLibro(libroId) {
     // Marcar géneros actuales
     document.querySelectorAll('#modalEditarLibro input[type=checkbox]').forEach(cb => cb.checked = false);
     if (libro.generos) {
-        libro.generos.forEach(nombreGenero => {
+        libro.generos.forEach(genero => {
+            const nombre = typeof genero === 'string' ? genero : genero.nombre;
             document.querySelectorAll('#modalEditarLibro input[type=checkbox]').forEach(cb => {
-                if (cb.nextElementSibling.textContent === nombreGenero) cb.checked = true;
+                if (cb.nextElementSibling.textContent.trim() === nombre) cb.checked = true;
             });
         });
     }

@@ -36,10 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Guardamos el objeto usuario (que trae el ID, nombre, etc.) en el "disco duro" del navegador
+
             localStorage.setItem('usuario', JSON.stringify(usuario));
             console.log("Usuario guardado en localStorage:", usuario);
-            // ------------------------------
 
             window.location.href = "Inicio.html";
 

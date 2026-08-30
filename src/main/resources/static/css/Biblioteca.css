@@ -1,6 +1,6 @@
 :root {
     --bg-main: #F8F8F8;
-    --bg-card: #E0E0E0; /* 🔥 Más oscuro como pediste */
+    --bg-card: #E0E0E0;
     --text-main: #333;
     --text-secondary: #7A7A7A;
     --accent: #E63946;
@@ -19,9 +19,7 @@ body {
     padding: 20px;
 }
 
-/* =========================
-   VISTA 1: TARJETAS DE LISTAS
-   ========================= */
+/* VISTA 1: TARJETAS DE LISTAS */
 .lista-card {
     background: var(--bg-card);
     border: 1px solid #ddd;
@@ -54,9 +52,7 @@ body {
     background: var(--structure-hover);
 }
 
-/* =========================
-   VISTA 2: LIBROS DENTRO DE LA LISTA
-   ========================= */
+/* VISTA 2: LIBROS DENTRO DE LA LISTA */
 .carpeta-book {
     display: flex;
     align-items: center;
@@ -107,9 +103,9 @@ body {
 }
 
 
-/* =========================
-   CARRUSEEL "LEYENDO"
-   ========================= */
+
+  /* CARRUSEEL "LEYENDO"*/
+
 .reading-carousel-wrapper {
     position: relative;
     display: flex;
@@ -214,11 +210,11 @@ body {
 }
 
 .star-empty {
-    color: #ccc; /* Estrella de fondo gris */
+    color: #ccc;
 }
 
 .star-filled {
-    color: #FFD700; /* Estrella dorada */
+    color: #FFD700;
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
@@ -232,7 +228,6 @@ body {
 
 .interactive-star:hover .star-filled,
 .interactive-star:hover ~ .interactive-star .star-filled {
-    /* Efecto hover opcional si quieres que reaccionen */
     opacity: 0.8;
 }
 

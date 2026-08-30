@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderReadingCarousel(leyendo.libros);
             } else {
                 document.getElementById("readingSection").innerHTML =
-                    "<p class='text-muted'>No tienes libros en lectura actualmente.</p>";
+                    "<p class='text-muted'>No tienes libros en lectura actualmente.</p>"
             }
 
             renderCarpetas(resto);

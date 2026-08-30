@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(cb => cb.value);
         if (generosSeleccionados.length > 0) {
             librosFiltrados = librosFiltrados.filter(libro =>
-                libro.generos?.some(g => generosSeleccionados.includes(g.nombre))
+                libro.generos?.some(g => generosSeleccionados.includes(g))
             );
         }
 

@@ -32,10 +32,8 @@ public class ResenaService {
     public Resena crear(Resena resena) {
         Resena guardada = resenaRepository.save(resena);
 
-        // Actualizar media del libro
         recalcularMedia(resena.getLibro().getId());
 
-        // Registrar actividad RESENA
         Libro libro = libroRepository.findById(resena.getLibro().getId())
                 .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
         actividadService.registrarResena(

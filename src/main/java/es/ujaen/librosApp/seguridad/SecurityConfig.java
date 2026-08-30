@@ -23,7 +23,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //SOLO PARA DESARROLLO (elimínalo después)
+    /*SOLO PARA DESARROLLO (elimínalo después)
     @Bean
     public CommandLineRunner encriptarUsuarios(
             UsuarioRepository usuarioRepository,
@@ -41,6 +41,7 @@ public class SecurityConfig {
             });
         };
     }
+    */
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

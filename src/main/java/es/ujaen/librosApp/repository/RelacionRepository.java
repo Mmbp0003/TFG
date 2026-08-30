@@ -13,4 +13,8 @@ public interface RelacionRepository extends JpaRepository<Relacion, Integer> {
     Optional<Relacion> findBySeguidorAndSeguido(Usuario seguidor, Usuario seguido);
 
     void deleteBySeguidorAndSeguido(Usuario seguidor, Usuario seguido);
+
+    void deleteBySeguidorId(int seguidorId);
+
+    void deleteBySeguidoId(int seguidoId);
 }

@@ -12,13 +12,13 @@ html, body {
     margin: 0;
 }
 
-/* ===== WRAPPER GENERAL ===== */
+/* WRAPPER GENERAL */
 .app-wrapper {
     display: flex;
     min-height: 100vh;
 }
 
-/* ===== SIDEBAR (IZQUIERDA FIJA) ===== */
+/* SIDEBAR  */
 .sidebar {
     width: 220px;
     min-height: 100vh;
@@ -26,7 +26,7 @@ html, body {
     flex-shrink: 0;
 }
 
-/* ===== ZONA DERECHA (TOPBAR + CONTENIDO) ===== */
+/* TOPBAR + CONTENIDO */
 .app-main {
     flex: 1;
     display: flex;
@@ -34,7 +34,7 @@ html, body {
     min-height: 100vh;
 }
 
-/* ===== TOPBAR (ARRIBA) ===== */
+/* TOPBAR  */
 .navbar {
     flex-shrink: 0;
 }
@@ -47,7 +47,7 @@ html, body {
     background: var(--bg-main);
 }
 
-/* opcional: centrado tipo app */
+
 .main-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -55,9 +55,7 @@ html, body {
 
 
 
-/* =========================
-   SIDEBAR
-   ========================= */
+/*  SIDEBAR */
 .bg-dark {
     background-color: var(--structure) !important;
 }
@@ -112,9 +110,7 @@ html, body {
 }
 
 
-/* =========================
-   TOPBAR
-   ========================= */
+/* TOPBAR */
 .navbar {
     background-color: var(--structure) !important;
 }

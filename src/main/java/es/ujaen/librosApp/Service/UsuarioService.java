@@ -5,17 +5,17 @@ import es.ujaen.librosApp.model.Actividad;
 import es.ujaen.librosApp.model.Carpeta;
 import es.ujaen.librosApp.model.Resena;
 import es.ujaen.librosApp.model.Usuario;
-import es.ujaen.librosApp.repository.CarpetaRepository;
-import es.ujaen.librosApp.repository.ResenaRepository;
-import es.ujaen.librosApp.repository.UsuarioRepository;
+import es.ujaen.librosApp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.Set;
 
 @Service
 public class UsuarioService {
@@ -31,6 +31,12 @@ public class UsuarioService {
 
     @Autowired
     private ResenaRepository resenaRepository;
+
+    @Autowired
+    private RelacionRepository relacionRepository;
+
+    @Autowired
+    private LibroRepository libroRepository;
 
     // ─────────────────────────────────────────────
     // CONSULTAS
@@ -84,24 +90,14 @@ public class UsuarioService {
         return guardado;
     }
 
-    // ─────────────────────────────────────────────
-    // CAMBIO DE ROL  ← nuevo
-    // ─────────────────────────────────────────────
 
-    /**
-     * Cambia el rol de un usuario. Valores válidos: "USER", "ADMIN".
-     * La validación del valor concreto se hace en el controller;
-     * aquí solo buscamos y guardamos.
-     */
+
     public void cambiarRol(int id, String nuevoRol) {
         Usuario usuario = obtenerPorId(id); // lanza RuntimeException si no existe
         usuario.setRol(nuevoRol);
         usuarioRepository.save(usuario);
     }
 
-    // ─────────────────────────────────────────────
-    // LOGIN
-    // ─────────────────────────────────────────────
 
     public Usuario login(String email, String clave) {
         Usuario usu = usuarioRepository.findByEmail(email)
@@ -113,17 +109,44 @@ public class UsuarioService {
         return usu;
     }
 
-    // ─────────────────────────────────────────────
-    // BORRAR CUENTA
-    // ─────────────────────────────────────────────
 
+    @Transactional
     public void borrarCuenta(int id) {
+        Usuario usuario = obtenerPorId(id);
+
+        // Recalcular media de los libros que ha reseñado antes de borrar
+        List<Resena> resenas = resenaRepository.findByUsuarioId(id);
+        Set<Integer> librosAfectados = resenas.stream()
+                .map(r -> r.getLibro().getId())
+                .collect(java.util.stream.Collectors.toSet());
+
+        // Borrar relaciones
+        relacionRepository.deleteBySeguidorId(id);
+        relacionRepository.deleteBySeguidoId(id);
+
+        // Limpiar libros guardados
+        usuario.getLibrosGuardados().clear();
+        usuarioRepository.save(usuario);
+
+        // Borrar usuario (cascade borra reseñas, actividades, carpetas...)
         usuarioRepository.deleteById(id);
+
+        // Recalcular media de libros afectados DESPUÉS de borrar las reseñas
+        for (int libroId : librosAfectados) {
+            List<Resena> resenasRestantes = resenaRepository.findByLibroId(libroId);
+            double media = resenasRestantes.stream()
+                    .mapToDouble(Resena::getPuntuacion)
+                    .average()
+                    .orElse(0.0);
+            double mediaRedondeada = Math.round(media * 10.0) / 10.0;
+
+            libroRepository.findById(libroId).ifPresent(libro -> {
+                libro.setMediaValoracion(mediaRedondeada);
+                libroRepository.save(libro);
+            });
+        }
     }
 
-    // ─────────────────────────────────────────────
-    // PERFIL DTO
-    // ─────────────────────────────────────────────
 
     public DTOPerfil obtenerPerfilDTO(int id) {
         Usuario usuario = obtenerPorId(id);

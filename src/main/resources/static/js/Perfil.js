@@ -7,9 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnDejarSeguir = document.getElementById('btn-dejar-seguir');
 
 
-    // =========================
-    // REDIRECCIÓN SI NO HAY ID
-    // =========================
+
     if (!perfilId) {
         const redirigir = (usuario) => {
             window.location.href = `/Vistas/Perfil.html?id=${usuario.id}`;
@@ -22,9 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // =========================
+
     // 1. OBTENER USUARIO LOGUEADO
-    // =========================
+
     function iniciar(usuarioLogueado) {
         cargarPerfil(usuarioLogueado);
     }
@@ -35,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("usuarioListo", (e) => iniciar(e.detail));
     }
 
-    // =========================
+
     // 2. CARGAR PERFIL
-    // =========================
+
     function cargarPerfil(usuarioLogueado) {
         fetch(`/api/usuarios/${perfilId}`, { credentials: "include" })
             .then(res => {
@@ -71,9 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(err => console.error("Error cargando perfil:", err));
     }
 
-    // =========================
     // 3. CARPETAS CON PORTADAS
-    // =========================
+
     function pintarCarpetas(carpetas) {
         const container = document.getElementById("carpetas-container");
         container.innerHTML = "";
@@ -116,9 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================
+
     // 4. ACTIVIDAD
-    // =========================
+
     function cargarActividad(usuarioId) {
         fetch(`/api/actividades/usuario/${usuarioId}`, { credentials: "include" })
             .then(res => {
@@ -189,9 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // =========================
+
     // AUXILIARES
-    // =========================
+
     function pintarUsuarios(containerId, lista) {
         const container = document.getElementById(containerId);
         container.innerHTML = "";
@@ -238,9 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================
+
     // EVENTOS
-    // =========================
+
     btnSeguir.addEventListener("click", () => {
         fetch("/api/relaciones/seguir", {
             method: "POST",

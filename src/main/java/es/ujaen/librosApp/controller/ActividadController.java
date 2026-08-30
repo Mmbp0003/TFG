@@ -28,7 +28,6 @@ public class ActividadController {
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuario");
         if (usuarioSesion == null) return ResponseEntity.status(401).body("No autenticado");
 
-        // Recargar desde BBDD para tener las relaciones disponibles
         Usuario usuario = usuarioService.obtenerPorId(usuarioSesion.getId());
 
         List<Integer> ids = usuario.getSiguiendo().stream()

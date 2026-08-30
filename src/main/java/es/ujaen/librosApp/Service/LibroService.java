@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LibroService {
@@ -34,6 +35,13 @@ public class LibroService {
 
     // Asegurar que esto es para admin
     public Libro crear(Libro libro) {
+        if (libro.getGeneros() != null && !libro.getGeneros().isEmpty()) {
+            List<Genero> generosReales = libro.getGeneros().stream()
+                    .map(g -> generoRepository.findById(g.getid())
+                            .orElseThrow(() -> new RuntimeException("Género no encontrado: " + g.getid())))
+                    .collect(Collectors.toList());
+            libro.setGeneros(generosReales);
+        }
         return libroRepository.save(libro);
     }
 
@@ -56,6 +64,7 @@ public class LibroService {
         libroRepository.delete(libro);
     }
 
+    @Transactional
     public Libro modificar(int id, Libro datos) {
         Libro libro = obtenerPorId(id);
         libro.setTitulo(datos.getTitulo());
@@ -66,6 +75,16 @@ public class LibroService {
         if (datos.getPortada() != null && !datos.getPortada().isBlank()) {
             libro.setPortada(datos.getPortada());
         }
+
+        // Actualizar géneros
+        if (datos.getGeneros() != null) {
+            List<Genero> generosReales = datos.getGeneros().stream()
+                    .map(g -> generoRepository.findById(g.getid())
+                            .orElseThrow(() -> new RuntimeException("Género no encontrado: " + g.getid())))
+                    .collect(Collectors.toList());
+            libro.setGeneros(generosReales);
+        }
+
         return libroRepository.save(libro);
     }
 

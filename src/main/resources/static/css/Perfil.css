@@ -11,25 +11,19 @@
     --structure-hover: #3B3B3B;
 }
 
-/* =========================
-   BASE
-   ========================= */
+/* BASE */
 body {
     background-color: var(--bg-main);
     color: var(--text-main);
 }
 
-/* =========================
-   PROFILE LAYOUT
-   ========================= */
+/* PROFILE LAYOUT */
 .profile-container {
     max-width: 1200px;
-    padding: 20px; /* aire general */
+    padding: 20px;
 }
 
-/* =========================
-   HEADER PERFIL
-   ========================= */
+/* HEADER PERFIL */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -53,9 +47,7 @@ body {
     font-weight: 700;
 }
 
-/* =========================
-   STATS
-   ========================= */
+/* STATS */
 .profile-stats {
     display: flex;
     gap: 25px;
@@ -80,9 +72,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* =========================
-   SECCIONES LIBROS
-   ========================= */
+/* SECCIONES LIBROS */
 .profile-section {
     background: var(--bg-card);
     padding: 20px;
@@ -134,9 +124,7 @@ body {
     box-shadow: 0 8px 15px rgba(230, 57, 70, 0.2);
 }
 
-/* =========================
-   PANEL DERECHO
-   ========================= */
+/* PANEL DERECHO */
 .profile-card {
     background: var(--bg-card);
     padding: 20px;
@@ -145,9 +133,7 @@ body {
     margin-bottom: 15px;
 }
 
-/* =========================
-   USUARIOS
-   ========================= */
+/* USUARIOS */
 .profile-list {
     display: flex;
     flex-direction: column;
@@ -190,9 +176,7 @@ body {
     transform: scale(1.1);
 }
 
-/* =========================
-   ACTIVIDAD
-   ========================= */
+/* ACTIVIDAD */
 .profile-activity {
     display: flex;
     gap: 10px;
@@ -212,9 +196,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* =========================
-   BOTONES DE ACCIÓN
-   ========================= */
+/* BOTONES DE ACCIÓN */
 .btn-accent {
     background-color: var(--accent);
     color: white;
@@ -256,12 +238,7 @@ body {
     color: white;
 }
 
-/* =========================
-   BOTONES DE ACCIÓN (FUERA DEL HEADER)
-   ========================= */
-/* =========================
-   BOTONES DE ACCIÓN (SUPERIOR DERECHA)
-   ========================= */
+
 .profile-actions-top {
     display: flex;
     justify-content: flex-end; /* Alinea a la derecha */
