@@ -1,5 +1,6 @@
 package es.ujaen.librosApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -36,6 +37,7 @@ public class Actividad {
 
     //--------------------------------RELACIONES--------------------------------------------------
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
