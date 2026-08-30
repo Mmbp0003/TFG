@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return res.json();
             })
             .then(() => {
-                window.location.href = "/Vistas/login.html";
+                window.location.href = "../Vistas/login.html";
             })
             .catch(err => {
                 alert("Error al registrarse: " + err.message);

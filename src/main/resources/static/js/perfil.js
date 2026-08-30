@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!perfilId) {
         const redirigir = (usuario) => {
-            window.location.href = `/Vistas/Perfil.html?id=${usuario.id}`;
+            window.location.href = `../Vistas/perfil.html`;
         };
         if (window.usuarioActual) {
             redirigir(window.usuarioActual);

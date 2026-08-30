@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem('usuario', JSON.stringify(usuario));
             console.log("Usuario guardado en localStorage:", usuario);
 
-            window.location.href = "Inicio.html";
+            window.location.href = "inicio.html";
 
         } catch (error) {
             console.error(error);

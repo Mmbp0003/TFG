@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (!res.ok) {
             // No hay sesión → mandamos al login
-            window.location.href = "/Vistas/login.html";
+            window.location.href = "../Vistas/login.html";
             return;
         }
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     credentials: "include"
                 });
                 localStorage.removeItem("usuario");
-                window.location.href = "/Vistas/login.html";
+                window.location.href = "../Vistas/login.html";
             });
         }
 
@@ -143,6 +143,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (e) {
         console.error("Error comprobando sesión:", e);
-        window.location.href = "/Vistas/login.html";
+        window.location.href = "../Vistas/login.html";
     }
 });
