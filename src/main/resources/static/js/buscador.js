@@ -31,7 +31,7 @@ input.addEventListener("input", () => {
                 `;
 
                 div.addEventListener("click", () => {
-                    window.location.href = `/Vistas/Libro.html?id=${libro.id}`;
+                    window.location.href = `../Vistas/Libro.html`;
                 });
 
                 results.appendChild(div);
