@@ -25,7 +25,8 @@ public class LibroService {
     private ActividadRepository actividadRepository;
 
     public List<Libro> obtenerTodos() {
-        return libroRepository.findAll();
+        List<Libro> libros = libroRepository.findAllConGeneros();
+        return libroRepository.findAllConTags(libros);
     }
 
     public Libro obtenerPorId(int id) {
