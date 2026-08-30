@@ -7,8 +7,6 @@ import es.ujaen.librosApp.repository.GeneroRepository;
 import es.ujaen.librosApp.repository.LibroRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +24,11 @@ public class LibroService {
     @Autowired
     private ActividadRepository actividadRepository;
 
-    @Cacheable("libros")
+
     public List<Libro> obtenerTodos() {
         List<Libro> libros = libroRepository.findAllConGeneros();
         return libroRepository.findAllConTags(libros);
     }
-
 
     public Libro obtenerPorId(int id) {
         return libroRepository.findById(id)
@@ -39,7 +36,6 @@ public class LibroService {
     }
 
     // Asegurar que esto es para admin
-    @CacheEvict(value = "libros", allEntries = true)
     public Libro crear(Libro libro) {
         if (libro.getGeneros() != null && !libro.getGeneros().isEmpty()) {
             List<Genero> generosReales = libro.getGeneros().stream()
@@ -52,7 +48,6 @@ public class LibroService {
     }
 
     // Solo Admin
-    @CacheEvict(value = "libros", allEntries = true)
     @Transactional
     public void borrar(int id) {
         Libro libro = libroRepository.findById(id).orElseThrow(() -> new RuntimeException("Libro no encontrado"));
@@ -72,7 +67,6 @@ public class LibroService {
     }
 
     @Transactional
-    @CacheEvict(value = "libros", allEntries = true)
     public Libro modificar(int id, Libro datos) {
         Libro libro = obtenerPorId(id);
         libro.setTitulo(datos.getTitulo());
