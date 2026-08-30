@@ -30,7 +30,7 @@ public class LibroController {
     @GetMapping
     public List<DTOLibro> obtenerTodos() {
         return libroService.obtenerTodos().stream()
-                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .map(l -> new DTOLibro(l, l.getMediaValoracion()))
                 .toList();
     }
 
@@ -38,7 +38,7 @@ public class LibroController {
     @GetMapping("/{id}")
     public DTOLibro obtenerPorId(@PathVariable int id) {
         Libro libro = libroService.obtenerPorId(id);
-        return new DTOLibro(libro, libroService.calcularNotaMedia(id));
+        return new DTOLibro(libro, libro.getMediaValoracion());
     }
 
     @PostMapping
@@ -64,14 +64,14 @@ public class LibroController {
     @GetMapping("/buscar")
     public List<DTOLibro> buscarPorTitulo(@RequestParam String titulo) {
         return libroService.buscarPorTitulo(titulo).stream()
-                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .map(l -> new DTOLibro(l, l.getMediaValoracion()))
                 .toList();
     }
 
     @GetMapping("/buscarInteligente")
     public List<DTOLibro> buscarPorTituloAutor(@RequestParam String titulo) {
         return libroService.buscarPorTituloOAutor(titulo).stream()
-                .map(l -> new DTOLibro(l, libroService.calcularNotaMedia(l.getId())))
+                .map(l -> new DTOLibro(l, l.getMediaValoracion()))
                 .toList();
     }
 
