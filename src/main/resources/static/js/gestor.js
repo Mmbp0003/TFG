@@ -759,16 +759,16 @@ async function abrirModalEditarLibro(libroId) {
     const res = await fetch(`/api/libros/${libroId}`);
     const libro = await res.json();
 
+    const resGeneros = await fetch(API_URLS.generos);
+    const generos = await resGeneros.json();
+
+    const checkboxesGeneros = generos.map(g => `
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="${g.id}" id="el_gen_${g.id}">
+            <label class="form-check-label small" for="el_gen_${g.id}">${g.nombre}</label>
+        </div>`).join('');
+
     if (!document.getElementById('modalEditarLibro')) {
-        const resGeneros = await fetch(API_URLS.generos);
-        const generos = await resGeneros.json();
-
-        const checkboxesGeneros = generos.map(g => `
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="${g.id}" id="el_gen_${g.id}">
-                <label class="form-check-label small" for="el_gen_${g.id}">${g.nombre}</label>
-            </div>`).join('');
-
         document.body.insertAdjacentHTML('beforeend', `
         <div class="modal fade" id="modalEditarLibro" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -809,8 +809,7 @@ async function abrirModalEditarLibro(libroId) {
                             </div>
                             <div class="col-12">
                                 <label class="form-label small fw-semibold">Géneros</label>
-                                <div class="border rounded p-2" style="max-height:120px; overflow-y:auto">
-                                    ${checkboxesGeneros}
+                                <div class="border rounded p-2" style="max-height:120px; overflow-y:auto" id="el_generos_container">
                                 </div>
                             </div>
                         </div>
@@ -825,6 +824,9 @@ async function abrirModalEditarLibro(libroId) {
             </div>
         </div>`);
     }
+
+    // Siempre actualiza el contenido de géneros, exista o no el modal ya
+    document.getElementById('el_generos_container').innerHTML = checkboxesGeneros;
 
     // Rellenar con datos actuales
     document.getElementById('el_id').value      = libro.id;
