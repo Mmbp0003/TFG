@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
 
                     // Redirigir al libro más relevante (primero de la lista)
-                    window.location.href = `../Vistas/Libro.html`;
+                    window.location.href = `../Vistas/Libro.html?id=${libros[0].id}\`;`;
 
                 } catch (err) {
                     console.error("Error en búsqueda:", err);
